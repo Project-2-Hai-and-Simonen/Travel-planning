@@ -1,15 +1,9 @@
 const router = require("express").Router();
-const User = require('../models/User.model');
+const User = require('../../models/User.model');
 const bcrypt = require('bcrypt');
 //const passport = require('passport');
 //const GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
 
-//home page
-router.get("/", (req, res, next) => {
-    const user = req.session.user;
-    //console.log(req.session)
-    res.render("index", { user: user });
-});
 
 //sign up
 router.get("/signup", (req, res, next) => {
@@ -61,11 +55,26 @@ router.post('/login', (req, res) => {
             }
             if (bcrypt.compareSync(password, userFromDB.password)) {
                 req.session.user = userFromDB;
-                res.redirect('/main');
+                res.redirect('/memory');
             } else {
                 res.render('login', { message: 'Invalid credentials' });
             }
         })
+})
+
+//middleware
+const loginCheck = () => {
+    return (req, res, next) => {
+        if (req.session.user) {
+            next();
+        } else {
+            res.redirect('/login');
+        }
+    }
+}
+
+router.get('/memory', loginCheck(), (req, res) => {
+    res.render('memory');
 })
 
 
