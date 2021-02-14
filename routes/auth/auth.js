@@ -1,16 +1,17 @@
 const router = require("express").Router();
 const User = require('../../models/User.model');
 const bcrypt = require('bcrypt');
-//const passport = require('passport');
+const bcryptSalt = 10;
+const passport = require('passport');
 //const GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
 
 
 //sign up
 router.get("/signup", (req, res, next) => {
-    res.render("signup");
+    res.render("auth/signup");
 });
 
-router.post('/signup', (req, res) => {
+router.post('/signup', (req, res, next) => {
     const { username, password } = req.body;
     console.log(username, password);
     if (password.length < 8) {
@@ -24,14 +25,15 @@ router.post('/signup', (req, res) => {
     User.findOne({ username: username })
         .then(userFromDB => {
             if (userFromDB !== null) {
-                res.render('signup', { message: 'Username is already taken' });
+                res.render('auth/signup', { message: 'The username already exists' });
             } else {
-                const salt = bcrypt.genSaltSync();
+                const salt = bcrypt.genSaltSync(bcryptSalt);
                 const hash = bcrypt.hashSync(password, salt)
                 User.create({ username: username, password: hash })
                     .then(userFromDB => {
                         console.log(userFromDB);
-                        res.redirect('/');
+                        //res.redirect('/');
+                        res.redirect('/login');
                     })
             }
         })
@@ -42,7 +44,7 @@ router.post('/signup', (req, res) => {
 
 //log in
 router.get("/login", (req, res, next) => {
-    res.render("login");
+    res.render("auth/login");
 });
 
 router.post('/login', (req, res) => {
@@ -50,19 +52,20 @@ router.post('/login', (req, res) => {
     User.findOne({ username: username })
         .then(userFromDB => {
             if (userFromDB === null) {
-                res.render('login', { message: 'Invalid credentials' });
+                res.render('auth/login', { message: 'Invalid credentials' });
                 return;
             }
             if (bcrypt.compareSync(password, userFromDB.password)) {
                 req.session.user = userFromDB;
-                res.redirect('/memory');
+                res.redirect('/memories');
             } else {
-                res.render('login', { message: 'Invalid credentials' });
+                res.render('auth/login', { message: 'Invalid credentials' });
             }
         })
 })
 
 //middleware
+
 const loginCheck = () => {
     return (req, res, next) => {
         if (req.session.user) {
@@ -73,8 +76,8 @@ const loginCheck = () => {
     }
 }
 
-router.get('/memory', loginCheck(), (req, res) => {
-    res.render('memory');
+router.get('/memories', loginCheck(), (req, res) => {
+    res.render('auth/memories');
 })
 
 

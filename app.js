@@ -24,6 +24,10 @@ const session = require('express-session');
 const MongoStore = require('connect-mongo')(session)
 
 const mongoose = require('./db/index');
+//const mongoose = require('mongoose');
+const bcrypt = require('bcrypt');
+const passport = require('passport');
+const LocalStrategy = require('passport-local').Strategy;
 
 app.use(
         session({
@@ -37,7 +41,42 @@ app.use(
         })
     )
     // end of session configuration
-    // default value for title local
+const User = require('./models/User.model.js');
+
+passport.serializeUser((user, cb) => cb(null, user._id));
+
+passport.deserializeUser((id, cb) => {
+    User.findById(id)
+        .then(user => cb(null, user))
+        .catch(err => cb(err));
+});
+
+passport.use(
+    new LocalStrategy({ passReqToCallback: true }, {
+            usernameField: 'username', // by default //or email
+            passwordField: 'password' // by default
+        },
+        (username, password, done) => {
+            User.findOne({ username })
+                .then(user => {
+                    if (!user) {
+                        return done(null, false, { message: 'Incorrect username' });
+                    }
+
+                    if (!bcrypt.compareSync(password, user.password)) {
+                        return done(null, false, { message: 'Incorrect password' });
+                    }
+
+                    done(null, user);
+                })
+                .catch(err => done(err));
+        }
+    )
+);
+
+app.use(passport.initialize());
+app.use(passport.session());
+// default value for title local
 const projectName = "Travel-Planning";
 const capitalized = (string) => string[0].toUpperCase() + string.slice(1).toLowerCase();
 
