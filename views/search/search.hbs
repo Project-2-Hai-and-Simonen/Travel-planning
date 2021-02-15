@@ -1,7 +1,10 @@
 <h1>Find your favorite city</h1>
-<form action="search" method="post">
+{{!-- <form action="search" method="post"> --}}
+<form id="search-form" onsubmit="return false">
   <label for="query">Search</label>
-  <input type="text" name="query" id="query" placeholder="Berlin">
+  <input type="text" name="query" id="query" placeholder="Berlin" required>
+  <input type="button" onclick="submitForm()" value="Submit">
+</form>
 
   <h1>Top 10 cities in the world</h1> 
   {{!-- replace later by search result --}}
@@ -13,6 +16,5 @@
   <div id="mapbox">
     <div id='map' style='width: 850px; height: 600px;'></div>
   </div>
-</form>
 
 <script src="/js/citySearch.js"></script>

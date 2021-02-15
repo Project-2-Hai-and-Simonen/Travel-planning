@@ -8,33 +8,65 @@ const map = new mapboxgl.Map({
   doubleClickZoom: true,
 });
 
+let markers = [];
+
+// list of search results
+const searchResultList = document.getElementById('city-list');
+
+// initialize the first most 10-visited cities and map
 window.addEventListener('load', async (event) => {
-  const response = await window.axios.get('search/test');
-  const top10Cities = response.data;
-  const searchResultList = document.getElementById('city-list');
-  top10Cities.forEach(city => {
-    liGenerator(city, searchResultList);
-    generateMarker(city.longitude, city.latitude, map);
-  });
+  const top10Cities = (await window.axios.get('search/searchInit')).data;
+  cityGenerator(top10Cities);
 });
 
+const query = document.getElementById('query');
+query.addEventListener('keyup', event => {
+  if (event.key === 'Enter') {
+    submitForm();
+    return false;
+  }
+});
 
+async function submitForm() {
+  const cityData = (await window.axios({
+    method: 'post',
+    url: 'search',
+    headers: {},
+    data: {query: query.value}
+  })).data;
+  searchResultList.innerText = '';
+  markers.forEach(marker => marker.remove()); // remove all previous markers
+  cityGenerator(cityData);
+  map.flyTo({center: cityData[0].loc.coordinates, zoom: 9});
+  return false;
+}
+
+
+
+// function here
+function cityGenerator(cities) {
+  cities.forEach(city => {
+    liGenerator(city, searchResultList);
+    generateMarker(city.loc.coordinates[0], city.loc.coordinates[1], map);
+  });
+}
 
 function liGenerator (city, list) {
   const li = document.createElement("li");
-  li.textContent = city.name;
+  li.textContent = `${city.name}, ${city.country}`;
   list.appendChild(li);
 }
 
-// function markerDrawer(longitude, latitude) {
-
-// }
-
 function generateMarker(longitude, latitude, map) {
-  new mapboxgl.Marker({
+  const marker = new mapboxgl.Marker({
     scale: 1,
     color: 'red',
   })
     .setLngLat([longitude, latitude])
     .addTo(map);
+  markers.push(marker);
+}
+
+function removeMarkers() {
+  map.removeLayer(marker)
 }
