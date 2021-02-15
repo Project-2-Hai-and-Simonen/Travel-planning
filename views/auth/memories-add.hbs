@@ -1,14 +1,21 @@
+<div>
+<div>
 <form action="/memories/add" method="POST" enctype="multipart/form-data">
+<div>
 <label for="name">City: </label>
 <input type="text" name="name" id="name">
-
+</div>
+<div>
 <label for="photo">Photo: </label>
-<input type="file" name="photo" id="photo">
-
-<label for="description">Description: </label>
-<input type="text" name="description" id="description">
-{{!-- <textarea name="description" id="description" cols="30" rows="10"></textarea> --}}
-
-<button type="submit">add city</button>
+<input type="file" name="photo" id="photo" multiple>
+</div>
+<div>
+{{!-- <label for="description">Description: </label>
+<input type="text" name="description" id="description"> --}}
+<textarea name="description" id="description" cols="30" rows="10" placeholder="Description"></textarea>
+</div>
+<button type="submit">add memory</button>
 
 </form>
+</div>
+</div>

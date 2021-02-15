@@ -1,23 +1,25 @@
 <h1>{{user.username}}'s memories</h1>
 
 {{#each memories}}
+<div>
+  <div>
 <h1>{{name}}</h1>
+</div>
+<div>
 <p>{{description}}</p>
+</div>
+<div>
 <img src="{{imgPath}}">
-
+</div>
+<div>
+<button type="submit"><a href="/memories/delete">Delete Memory</a></button>
+</div>
+<button type="submit"><a href="/memories/edit">Edit Memory</a></button>
+</div>
  {{else}}
   <p>Ups! There are no memories yet!</p>
   {{/each}}
 
-<a href="/memories/add">Add a memory</a>
+<button type="submit"><a href="/memories/add">Add memory</a></button>
 
-{{!-- <form action="memories" method="POST" enctype="multipart/form-data">
-<label for="photo">Photo: </label>
-<input type="file" name="photo" id="photo">
-
-<label for="description">Description: </label>
-<input type="text" name="description" id="description">
-
-<button type="submit">add photo</button>
-
-</form> --}}
+</div>

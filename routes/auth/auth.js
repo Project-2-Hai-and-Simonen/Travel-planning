@@ -111,4 +111,8 @@ router.post('/memories/add', uploadCloud.single('photo'), loginCheck(), (req, re
         })
 });
 
+router.get('/planning', loginCheck(), (req, res) => {
+    res.render('auth/planning', { user: req.session.user });
+})
+
 module.exports = router;
