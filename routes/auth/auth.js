@@ -4,6 +4,8 @@ const bcrypt = require('bcrypt');
 const bcryptSalt = 10;
 const passport = require('passport');
 //const GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
+const Memories = require('../../models/auth/Memories');
+const { uploadCloud, cloudinary } = require('../../config/auth/cloudinary');
 
 
 //sign up
@@ -57,7 +59,7 @@ router.post('/login', (req, res) => {
             }
             if (bcrypt.compareSync(password, userFromDB.password)) {
                 req.session.user = userFromDB;
-                res.redirect('/memories');
+                res.redirect('/private');
             } else {
                 res.render('auth/login', { message: 'Invalid credentials' });
             }
@@ -65,7 +67,6 @@ router.post('/login', (req, res) => {
 })
 
 //middleware
-
 const loginCheck = () => {
     return (req, res, next) => {
         if (req.session.user) {
@@ -76,9 +77,38 @@ const loginCheck = () => {
     }
 }
 
-router.get('/memories', loginCheck(), (req, res) => {
-    res.render('auth/memories');
+
+router.get('/private', loginCheck(), (req, res) => {
+    res.render('auth/private', { user: req.session.user });
 })
 
+router.get('/memories', loginCheck(), (req, res) => {
+    console.log(req.session.user);
+    Memories.find()
+        .then(memories => {
+            res.render('auth/memories', { user: req.session.user, memories });
+        })
+
+})
+
+//add memories
+router.get('/memories/add', (req, res, next) => {
+    res.render('auth/memories-add');
+});
+
+router.post('/memories/add', uploadCloud.single('photo'), loginCheck(), (req, res, next) => {
+    console.log('?????', req.file);
+    const name = req.body.name;
+    const description = req.body.description;
+    const imgPath = req.file.path;
+    const imgName = req.file.originalname;
+    Memories.create({ name, description, imgPath, imgName })
+        .then(() => {
+            res.redirect('/memories')
+        })
+        .catch(err => {
+            next(err);
+        })
+});
 
 module.exports = router;
