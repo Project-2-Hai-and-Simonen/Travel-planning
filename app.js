@@ -112,12 +112,17 @@ passport.use(
 const projectName = "Travel-Planning";
 const capitalized = (string) => string[0].toUpperCase() + string.slice(1).toLowerCase();
 
-app.locals.title = `${capitalized(projectName)}- Generated with IronGenerator`;
+app.locals.title = `${capitalized(projectName)}`;
 
 // 👇 Start handling routes here
 const index = require("./routes/index");
 app.use("/", index);
 
+const search = require("./routes/search/search");
+app.use("/search", search);
+
+const details = require("./routes/cityDetails/cityDetails");
+app.use("/details", details);
 const auth = require("./routes/auth/auth");
 app.use("/", auth);
 

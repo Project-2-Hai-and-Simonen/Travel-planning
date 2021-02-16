@@ -1,0 +1,20 @@
+
+<h1>{{city.name}} details</h1>
+{{{summary}}}
+<p>Country: {{city.country}}</p>
+<p>Population: {{city.population}} citizens</p>
+<img src="{{imageUrl}}" alt="{{city.name}}">
+{{#with currentWeather}}
+<h2>Weather</h2>
+<p>Temperature: {{main.temp}}°C (Feel like: {{main.feels_like}}°C)</p>
+<p>Humidity: {{main.humidity}}%</p>
+<p>Pressure: {{main.pressure}} hPa</p>
+<p>Sky: {{weather.[0].main}} ({{weather.[0].description}})</p>
+<p>Wind speed: {{wind.speed}} m/s ({{wind.deg}})</p>
+<p>Visibility: {{visibility}} m</p>
+<p>Sun rise: {{sys.sunrise}}</p>
+<p>Sun set: {{sys.sunset}}</p>
+<p>Timezone: {{timezone}}</p>
+{{/with}}
+<canvas id="tempChart" width="600" height="400"></canvas>
+<script src="/js/cityDetails.js"></script>
