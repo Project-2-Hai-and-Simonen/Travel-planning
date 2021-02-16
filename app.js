@@ -118,13 +118,19 @@ app.locals.title = `${capitalized(projectName)}`;
 const index = require("./routes/index");
 app.use("/", index);
 
+const auth = require("./routes/auth/auth");
+app.use("/", auth);
+
 const search = require("./routes/search/search");
 app.use("/search", search);
 
 const details = require("./routes/cityDetails/cityDetails");
 app.use("/details", details);
-const auth = require("./routes/auth/auth");
-app.use("/", auth);
+
+const favorites = require("./routes/favorites/favorites");
+app.use("/favorites", favorites);
+
+
 
 // ❗ To handle errors. Routes that don't exist or errors that you handle in specific routes
 require("./error-handling")(app);

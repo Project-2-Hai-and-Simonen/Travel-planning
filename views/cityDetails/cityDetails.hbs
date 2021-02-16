@@ -1,5 +1,10 @@
 
 <h1>{{city.name}} details</h1>
+<form action="/favorites" method="post">
+  <input type="hidden" name="id" value="{{city._id}}">
+  <input type="hidden" name="image" value="{{imageUrl}}">
+  <button type="submit">Add to Favorites</button>
+</form>
 {{{summary}}}
 <p>Country: {{city.country}}</p>
 <p>Population: {{city.population}} citizens</p>

@@ -65,3 +65,32 @@ img {
 .loginBtn {
     text-align: center;
 }
+
+.card-title {
+    font-size: 1.2em;
+}
+
+.card-link {
+    position: absolute !important;
+    width: 100%;
+    height: 100%;
+}
+
+.card-img-top {
+    width: 100%;
+    height: 300px;
+    object-fit: cover;
+}
+
+.card-body {
+    width: 100%;
+    height: 110px;
+    position: relative;
+}
+
+.card-body .btn {
+    position: absolute;
+    bottom: 5px;
+    width: 200px;
+    height: 40px;
+}
