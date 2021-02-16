@@ -1,11 +1,11 @@
 <h1>{{user.username}}'s memories</h1>
 
-{{#each memories}}
+{{!-- {{#each memories}}
 <div>
   <div>
-<h1>{{name}}</h1>
+<a href='/city/:id'><h1>{{name}}</h1></a>
 </div>
-<div>
+{{!-- <div>
 <p>{{description}}</p>
 </div>
 <div>
@@ -15,11 +15,17 @@
 <button type="submit"><a href="/memories/delete">Delete Memory</a></button>
 </div>
 <button type="submit"><a href="/memories/edit">Edit Memory</a></button>
-</div>
- {{else}}
+</div> --}}
+ {{!-- {{else}}
   <p>Ups! There are no memories yet!</p>
   {{/each}}
 
 <button type="submit"><a href="/memories/add">Add memory</a></button>
 
-</div>
+</div> --}}
+
+
+{{#each memories}}
+<h2><a href="/city/{{this._id}}">{{this.name}}</a></h2> 
+{{/each}}
+<button type="submit"><a href="/memories/add">Add memory</a></button>

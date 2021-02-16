@@ -88,7 +88,9 @@ router.get('/memories', loginCheck(), (req, res) => {
         .then(memories => {
             res.render('auth/memories', { user: req.session.user, memories });
         })
-
+        .catch(err => {
+            console.log(err);
+        })
 })
 
 //add memories
@@ -113,6 +115,58 @@ router.post('/memories/add', uploadCloud.single('photo'), loginCheck(), (req, re
 
 router.get('/planning', loginCheck(), (req, res) => {
     res.render('auth/planning', { user: req.session.user });
+})
+
+router.get('/city/:id', loginCheck(), (req, res, next) => {
+    const cityId = req.params.id;
+    Memories.findById(cityId)
+        .then(city => {
+            console.log(city);
+            res.render('auth/city-show', { show: city })
+        })
+})
+
+//edit & delete memories
+router.get('/city/:id/delete', (req, res) => {
+    const cityId = req.params.id;
+    Memories.findByIdAndDelete(cityId)
+        .then(() => {
+            res.redirect('/memories')
+        })
+        .catch(err => {
+            console.log(err);
+        })
+})
+
+router.get('/city/:id/edit', (req, res, next) => {
+    const cityId = req.params.id;
+    //console.log('tryId', cityId)
+    Memories.findById(cityId)
+        .then(cityFromDB => {
+            console.log('test', cityFromDB);
+            res.render('auth/edit', { city: cityFromDB });
+        })
+})
+
+router.post('/city/:id/edit', (req, res) => {
+    const cityId = req.params.id;
+    const name = req.body.name;
+    const description = req.body.description;
+    const imgPath = req.file.path;
+    const imgName = req.file.originalname;
+    console.log(name)
+    Memories.findByIdAndUpdate(cityId, {
+            name: name,
+            description: description,
+            imgName: imgName,
+            imgPath: imgPath
+        })
+        .then(city => {
+            res.redirect(`/city/${city._id}`);
+        })
+        .catch(err => {
+            console.log(err);
+        })
 })
 
 module.exports = router;
