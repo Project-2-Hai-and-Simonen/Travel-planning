@@ -1,0 +1,27 @@
+<body class="login">
+  
+<h2 class="loginText">Log In</h2>
+<div class="container">
+   <div class="item">
+<form action="/login" method="POST">
+<div>
+  {{!-- <label for="username">Username</label> --}}
+  <input type="text" name="username" placeholder="username" required>
+  </div>
+
+  <div>
+  {{!-- <label for="password">Password</label> --}}
+  <input type="password" name="password" placeholder="password" required>
+  </div>
+  
+{{#if message}}
+  <p style='color: red'>{{message}}</p>
+{{/if}}
+
+<div class="loginBtn">
+<button id="lBtn" type="submit">Log In</button>
+</div>
+</div>
+</div>
+</form>
+</body>
