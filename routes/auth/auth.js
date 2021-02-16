@@ -3,11 +3,26 @@ const User = require('../../models/User.model');
 const bcrypt = require('bcrypt');
 const bcryptSalt = 10;
 const passport = require('passport');
-//const GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
+const GoogleStrategy = require("passport-google-oauth20").Strategy;
 const Memories = require('../../models/auth/Memories');
 const { uploadCloud, cloudinary } = require('../../config/auth/cloudinary');
 
-
+router.get(
+    "/auth/google",
+    passport.authenticate("google", {
+        scope: [
+            "https://www.googleapis.com/auth/userinfo.profile",
+            "https://www.googleapis.com/auth/userinfo.email"
+        ]
+    })
+);
+router.get(
+    "/auth/google/callback",
+    passport.authenticate("google", {
+        successRedirect: "/private",
+        failureRedirect: "/" // here you would redirect to the login page using traditional login approach
+    })
+);
 //sign up
 router.get("/signup", (req, res, next) => {
     res.render("auth/signup");
