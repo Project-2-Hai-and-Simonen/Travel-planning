@@ -69,5 +69,5 @@ function generateMarker(longitude, latitude, map) {
 }
 
 function removeMarkers() {
-  map.removeLayer(marker)
+  map.removeLayer(marker);
 }

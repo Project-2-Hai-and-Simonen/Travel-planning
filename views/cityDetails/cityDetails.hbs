@@ -1,9 +1,9 @@
 
 <h1>{{city.name}} details</h1>
 {{{summary}}}
-<p>Country: {{country}}</p>
-<p>Population: {{population}} citizens</p>
-<img src="{{imageUrl}}" alt="city.name">
+<p>Country: {{city.country}}</p>
+<p>Population: {{city.population}} citizens</p>
+<img src="{{imageUrl}}" alt="{{city.name}}">
 {{#with currentWeather}}
 <h2>Weather</h2>
 <p>Temperature: {{main.temp}}°C (Feel like: {{main.feels_like}}°C)</p>
@@ -17,3 +17,4 @@
 <p>Timezone: {{timezone}}</p>
 {{/with}}
 <canvas id="myChart" width="600" height="400"></canvas>
+<script src="/js/cityDetails.js"></script>
