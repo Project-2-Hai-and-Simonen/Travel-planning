@@ -1,0 +1,15 @@
+<h2>Edit memory</h2>
+
+{{#with city}}
+<form action="/city/{{_id}}/edit" method="POST">
+<label for="name">City: </label>
+<input type="text" name="name" id="name" value="{{name}}">
+
+<label for="photo">Photo: </label>
+<input type="file" name="photo" id="photo" multiple>
+
+<textarea name="description" id="description" cols="30" rows="10" placeholder="Description" value="{{description}}"></textarea>
+
+  <button type="submit">Update</button>
+</form>
+{{/with}}

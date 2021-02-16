@@ -1,12 +1,21 @@
+html {
+    width:100%;
+    height:100%;
+}
 body {
-  padding: 50px;
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif; }
+    width:100%;
+    height:100%;
+    font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+}
 
 a {
-  color: #00b7ff; }
+    color: #00b7ff;
+    text-decoration: none;
+}
 
 h1 {
-  color: 15px; }
+    color: 15px;
+}
 
 /*# sourceMappingURL=style.css.map */
 #city-list li {
@@ -24,4 +33,35 @@ h1 {
   padding: 10px 30px;
   margin: 10px;
   border-radius: 8px;
+}
+/*# sourceMappingURL=style.css.map */
+
+img {
+    width: 400px;
+    height: auto;
+}
+
+.login {
+    background-image: url("https://images.unsplash.com/photo-1526772662000-3f88f10405ff?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1567&q=80");
+    width:100%;
+    height:100%;
+}
+
+.container {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.item {
+    display: flex;
+    align-self: center;
+}
+
+.loginText {
+    text-align: center;
+}
+
+.loginBtn {
+    text-align: center;
 }
