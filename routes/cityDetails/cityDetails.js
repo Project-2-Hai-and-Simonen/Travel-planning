@@ -59,12 +59,10 @@ router.get('/:id/7days', async (req, res) => {
   let message;
   const coords = city.loc.coordinates;
   let api = `https://api.openweathermap.org/data/2.5/onecall?lat=${coords[1]}&lon=${coords[0]}&exclude=current,minutely,hourly&appid=${process.env.WEATHER_KEY}&units=metric`;
-  console.log(api);
   try {
     const data = (await axios.get(api)).data.daily;
     temps7Days = helpers.tempDataForGraph(data);
   } catch (error) {
-    console.log(error)
     message = "Unfortunately, no forcasted data";
   }
 
