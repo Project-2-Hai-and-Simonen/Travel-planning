@@ -1,4 +1,8 @@
-<h2>Log In</h2>
+<body class="login">
+  
+<h2 class="loginText">Log In</h2>
+<div class="container">
+   <div class="item">
 <form action="/login" method="POST">
 <div>
   {{!-- <label for="username">Username</label> --}}
@@ -14,7 +18,10 @@
   <p style='color: red'>{{message}}</p>
 {{/if}}
 
-<div>
-<button type="submit">Log In</button>
+<div class="loginBtn">
+<button id="lBtn" type="submit">Log In</button>
+</div>
+</div>
 </div>
 </form>
+</body>

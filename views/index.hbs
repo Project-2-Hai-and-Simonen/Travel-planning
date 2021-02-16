@@ -1,39 +1,32 @@
+<body class="login">
+  <div class="container">
+   <div class="item">
 <h1>{{title}}</h1>
 <p>Welcome to {{title}}</p>
-
-{{!-- <nav class="navbar">
-<a href="/signup">Sign Up</a>
-<a href="/login">Log In</a>
-</nav> --}}
-
+</div>
+<div class="item">
 <h2>Sign Up</h2>
+</div>
+<div class="item">
 <form action="/signup" method="POST" id="form-container">
-<div>
   {{!-- <label for="username" >Username</label> --}}
   <input type="text" name="username" placeholder="username" required>
-  </div>
-
-  <div>
   {{!-- <label for="password">Password</label> --}}
   <input type="password" name="password" placeholder="password" required>
-  </div>
- 
+
 {{#if message}}
   <p style='color: red'>{{message}}</p>
 {{/if}}
-
- <div>
-  <button type="submit">Create account</button>
- </div>
-
+  <button id="createBtn" type="submit">Create account</button>
  <p class="account-message">
   Do you already have an account?
-  <a href="/login">Login</a>
+  <a href="/login" style='color: red'>Login</a>
  </p>
- 
+
  {{#unless user}}
-  <div>
-    <a href="/auth/google">Login With Google</a>
-  </div>
+    <a href="/auth/google" style='color: red'>Login With Google</a>
 {{/unless}}
 </form>
+</div>
+</div>
+</body>

@@ -5,7 +5,7 @@ const memoriesSchema = new Schema({
     description: String,
     imgName: String,
     imgPath: String,
-    //publicId: String
+    publicId: String
 });
 
 const Memories = mongoose.model('Memories', memoriesSchema);

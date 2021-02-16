@@ -119,7 +119,8 @@ router.post('/memories/add', uploadCloud.single('photo'), loginCheck(), (req, re
     const description = req.body.description;
     const imgPath = req.file.path;
     const imgName = req.file.originalname;
-    Memories.create({ name, description, imgPath, imgName })
+    const publicId = req.file.filename
+    Memories.create({ name, description, imgPath, imgName, publicId })
         .then(() => {
             res.redirect('/memories')
         })
@@ -142,10 +143,24 @@ router.get('/city/:id', loginCheck(), (req, res, next) => {
 })
 
 //edit & delete memories
+
+// router.get('/city/:id/delete', (req, res) => {
+//     const cityId = req.params.id;
+//     Memories.findByIdAndDelete(cityId)
+//         .then(() => {
+//             res.redirect('/memories')
+//         })
+//         .catch(err => {
+//             console.log(err);
+//         })
+// })
 router.get('/city/:id/delete', (req, res) => {
     const cityId = req.params.id;
     Memories.findByIdAndDelete(cityId)
-        .then(() => {
+        .then(city => {
+            if (city.imgPath) {
+                cloudinary.uploadCloud.destroy(city.publicId);
+            }
             res.redirect('/memories')
         })
         .catch(err => {
@@ -158,7 +173,7 @@ router.get('/city/:id/edit', (req, res, next) => {
     //console.log('tryId', cityId)
     Memories.findById(cityId)
         .then(cityFromDB => {
-            console.log('test', cityFromDB);
+            //console.log('test', cityFromDB);
             res.render('auth/edit', { city: cityFromDB });
         })
 })
