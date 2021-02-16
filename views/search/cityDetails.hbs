@@ -1,0 +1,18 @@
+{{#with city}}
+<h1>{{name}} details</h1>
+<p>Country: {{country}}</p>
+<p>Population: {{population}} citizens</p>
+{{/with}}
+
+{{#with currentWeather}}
+<h2>Weather</h2>
+<p>Temperature: {{main.temp}} (Feel like: {{main.feels_like}})</p>
+<p>Humidity: {{main.humidity}}%</p>
+<p>Pressure: {{main.pressure}}</p>
+<p>Sky: {{weather.[0].main}} ({{weather.[0].description}})</p>
+<p>Wind speed: {{wind.speed}} ({{wind.deg}})</p>
+<p>Visibility: {{visibility}}</p>
+<p>Sun rise: {{sys.sunrise}}</p>
+<p>Sun set: {{sys.sunset}}</p>
+<p>Timezone: {{timezone}}</p>
+{{/with}}

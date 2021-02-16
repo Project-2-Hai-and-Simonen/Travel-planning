@@ -9,3 +9,19 @@ h1 {
   color: 15px; }
 
 /*# sourceMappingURL=style.css.map */
+#city-list li {
+  margin-bottom: 20px;
+}
+
+.link-btn {
+  background-color: rgb(67, 163, 230);
+  color: white;
+  font-family: Roboto Condensed;
+  font-size: 1.3em;
+  letter-spacing: 0.5px;
+  text-align: center;
+  text-decoration: none;
+  padding: 10px 30px;
+  margin: 10px;
+  border-radius: 8px;
+}

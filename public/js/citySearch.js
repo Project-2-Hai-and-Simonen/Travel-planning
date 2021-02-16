@@ -53,7 +53,8 @@ function cityGenerator(cities) {
 
 function liGenerator (city, list) {
   const li = document.createElement("li");
-  li.textContent = `${city.name}, ${city.country}`;
+  // change style="display" later
+  li.innerHTML = `<h2 style="display: inline;">${city.name}, ${city.country}</h2> <a href="/search/${city._id}" class="link-btn">View City</a>`;
   list.appendChild(li);
 }
 
