@@ -1,18 +1,19 @@
-{{#with city}}
-<h1>{{name}} details</h1>
+
+<h1>{{city.name}} details</h1>
+{{{summary}}}
 <p>Country: {{country}}</p>
 <p>Population: {{population}} citizens</p>
-{{/with}}
-
+<img src="{{imageUrl}}" alt="city.name">
 {{#with currentWeather}}
 <h2>Weather</h2>
-<p>Temperature: {{main.temp}} (Feel like: {{main.feels_like}})</p>
+<p>Temperature: {{main.temp}}°C (Feel like: {{main.feels_like}}°C)</p>
 <p>Humidity: {{main.humidity}}%</p>
-<p>Pressure: {{main.pressure}}</p>
+<p>Pressure: {{main.pressure}} hPa</p>
 <p>Sky: {{weather.[0].main}} ({{weather.[0].description}})</p>
-<p>Wind speed: {{wind.speed}} ({{wind.deg}})</p>
-<p>Visibility: {{visibility}}</p>
+<p>Wind speed: {{wind.speed}} m/s ({{wind.deg}})</p>
+<p>Visibility: {{visibility}} m</p>
 <p>Sun rise: {{sys.sunrise}}</p>
 <p>Sun set: {{sys.sunset}}</p>
 <p>Timezone: {{timezone}}</p>
 {{/with}}
+<canvas id="myChart" width="600" height="400"></canvas>

@@ -31,6 +31,9 @@ app.use("/", index);
 const search = require("./routes/search/search");
 app.use("/search", search);
 
+const details = require("./routes/search/details");
+app.use("/details", details);
+
 // ❗ To handle errors. Routes that don't exist or errors that you handle in specific routes
 require("./error-handling")(app);
 
