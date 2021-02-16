@@ -22,4 +22,82 @@
 <p>Timezone: {{timezone}}</p>
 {{/with}}
 <canvas id="tempChart" width="600" height="400"></canvas>
+<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#visitedModal"><i class="fas fa-user-plus fa-lg"></i><span class="md-hidden d-inline"> Visited? Add to History</span></a></button>
+
+{{!-- this appear only when user logged in - do it later --}}
+<div class="modal fade" id="visitedModal" tabindex="-1" role="dialog" aria-labelledby="visitedModalTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLongTitle">Visited City Form - {{city.name}}</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          {{!-- <!-- message bar -->
+          {% if messages %}
+          {% for message in messages %}
+          {% if message.level == DEFAULT_MESSAGE_LEVELS.INFO %}
+          <div class="alert alert-warning alert-dismissible fade show text-center" id="signin-failed" role="alert">
+            <strong>{{ message }}</strong>
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          {% endif %}
+          {% endfor %}
+          {% endif %} --}}
+          <form action="/visited/{{city._id}}" class="login-form ml-5 mr-5" method="post">
+            <div class="form-group row p-1 m-0">
+              <label for="fromDate" class="col-3 col-form-label p-0">From Date: </label>
+              <div class="col-9">
+                <input class="form-control" name="fromDate" type="date" value="2021-01-01" id="fromDate" required>
+              </div>
+            </div>
+            <div class="form-group row p-1 m-0">
+              <label for="toDate" class="col-3 col-form-label p-0">To Date: </label>
+              <div class="col-9">
+                <input class="form-control" name="toDate" type="date" value="2021-01-23" id="toDate" required>
+              </div>
+            </div>
+            <div class="form-group row p-1 m-0">
+              <label for="travellersNum" class="col-8 col-form-label p-0">Number of Travellers</label>
+              <div class="col-4">
+                <input class="form-control" name="travellersNum" type="number" value="1" id="travellersNum" required>
+              </div>
+            </div>
+            <div class="form-group row p-1 m-0">
+              <label for="cost" class="col-7 col-form-label p-0">Actual Cost (€)</label>
+              <div class="col-5">
+                <input class="form-control" name="cost" type="number" id="cost" required>
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="summary">Your short summary about the trip</label>
+              <textarea class="form-control" name="summary" id="summary" rows="3" required></textarea>
+            </div>
+
+            <div class="form-group row">
+              <label for="rating" class="col-8">Rate your trip</label>
+              <div class="col-4">
+                <select class="form-control" name="rating" id="rating">
+                <option>1</option>
+                <option>2</option>
+                <option>3</option>
+                <option>4</option>
+                <option selected>5</option>
+              </select>
+              </div>
+            </div>
+            <div class="form-group text-center">
+              <button type="submit" class="btn btn-login">Submit Your Trip</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
 <script src="/js/cityDetails.js"></script>
