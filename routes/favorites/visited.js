@@ -11,7 +11,7 @@ router.get('/', loginCheck(), async (req, res) => {
   try {
     // add {user: req.user/session.id} later
     trips = await Trip.find({user: user._id}).populate('city');
-    res.render('favorites/visitedCities', {trips});
+    res.render('favorites/visitedCities', {trips, username: user.username});
   } catch (error) {
     console.log(error);
     res.render('error');

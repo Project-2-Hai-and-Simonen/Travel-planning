@@ -16,7 +16,7 @@ router.get('/', loginCheck(), async (req, res) => {
     res.render('error');
   }
 
-  res.render('favorites/favoriteCities', {favoriteCities});
+  res.render('favorites/favoriteCities', {favoriteCities, username: user.username});
 });
 
 router.post('/', loginCheck(), async (req, res) => {

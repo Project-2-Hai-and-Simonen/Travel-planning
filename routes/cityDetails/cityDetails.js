@@ -44,7 +44,7 @@ router.get('/:id', async (req, res) => {
   // image of the city
   let imageUrl = await helpers.getImage(city);
 
-  res.render('cityDetails/cityDetails', {city,summary, currentWeather, imageUrl, weatherMessage});
+  res.render('cityDetails/cityDetails', {city,summary, currentWeather, imageUrl, weatherMessage, username});
 });
 
 
