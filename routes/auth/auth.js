@@ -5,6 +5,7 @@ const bcryptSalt = 10;
 const passport = require('passport');
 const GoogleStrategy = require("passport-google-oauth20").Strategy;
 const Memories = require('../../models/auth/Memories');
+const Vacation = require('../../models/auth/Vacation');
 const { uploadCloud, cloudinary } = require('../../config/auth/cloudinary');
 const { loginCheck } = require('../../middlewares/loginCheck');
 
@@ -30,7 +31,7 @@ router.get("/signup", (req, res, next) => {
     try {
         username = req.session.user.username;
     } catch (error) {}
-        res.render("auth/signup");
+    res.render("auth/signup");
 });
 
 router.post('/signup', (req, res, next) => {

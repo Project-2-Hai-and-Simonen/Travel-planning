@@ -1,0 +1,12 @@
+{{#with plan}}
+<h1>{{location}}</h1>
+<p>Number of travelers:{{travelers}}</p>
+<p>Your budget: {{budget}}€</p>
+<p>save the date!</p>
+<ul>
+<li>{{from}}</li>
+<li>{{to}}</li>
+</ul>
+<button type="submit"><a href="/planning/{{_id}}/delete">Delete</a></button>
+<button type="submit"><a href="/planning/{{_id}}/edit">Edit</a></button>
+{{/with}}

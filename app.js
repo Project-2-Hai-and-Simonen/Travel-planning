@@ -124,6 +124,8 @@ app.use("/auth", auth);
 
 const memories = require("./routes/memories/memories");
 app.use("/memories", memories);
+const planning = require("./routes/planning/planning");
+app.use("/planning", planning);
 
 const search = require("./routes/search/search");
 app.use("/search", search);
