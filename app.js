@@ -34,10 +34,11 @@ app.use(
             secret: process.env.SESSION_SECRET,
             cookie: { maxAge: 1000 * 60 * 60 * 24 },
             saveUninitialized: false,
-            resave: true,
+            resave: false,
             store: new MongoStore({
                 mongooseConnection: mongoose.connection
-            })
+            }),
+            unset: 'destroy'
         })
     )
     // end of session configuration
@@ -119,7 +120,7 @@ const index = require("./routes/index");
 app.use("/", index);
 
 const auth = require("./routes/auth/auth");
-app.use("/", auth);
+app.use("/auth", auth);
 
 const memories = require("./routes/memories/memories");
 app.use("/memories", memories);

@@ -6,9 +6,10 @@ const passport = require('passport');
 const GoogleStrategy = require("passport-google-oauth20").Strategy;
 const Memories = require('../../models/auth/Memories');
 const { uploadCloud, cloudinary } = require('../../config/auth/cloudinary');
+const { loginCheck } = require('../../middlewares/loginCheck');
 
 router.get(
-    "/auth/google",
+    "/google",
     passport.authenticate("google", {
         scope: [
             "https://www.googleapis.com/auth/userinfo.profile",
@@ -17,20 +18,23 @@ router.get(
     })
 );
 router.get(
-    "/auth/google/callback",
+    "/google/callback",
     passport.authenticate("google", {
-        successRedirect: "/private",
+        successRedirect: "/",
         failureRedirect: "/" // here you would redirect to the login page using traditional login approach
     })
 );
 //sign up
 router.get("/signup", (req, res, next) => {
-    res.render("auth/signup");
+    let username;
+    try {
+        username = req.session.user.username;
+    } catch (error) {}
+        res.render("auth/signup");
 });
 
 router.post('/signup', (req, res, next) => {
     const { username, password } = req.body;
-    console.log(username, password);
     if (password.length < 8) {
         return res.render('auth/signup', { message: 'Your password has to be 8 chars min' });
     }
@@ -50,17 +54,21 @@ router.post('/signup', (req, res, next) => {
                     .then(userFromDB => {
                         console.log(userFromDB);
                         //res.redirect('/');
-                        res.redirect('/login');
+                        res.redirect('auth/login');
                     })
             }
         })
         .catch(err => {
             console.log(err);
-        })
-})
+        });
+});
 
 //log in
 router.get("/login", (req, res, next) => {
+    let username;
+    try {
+        username = req.session.user.username;
+    } catch (error) {}
     res.render("auth/login");
 });
 
@@ -69,47 +77,44 @@ router.post('/login', (req, res) => {
     User.findOne({ username: username })
         .then(userFromDB => {
             if (userFromDB === null) {
-                res.render('auth/login', { message: 'Invalid credentials' });
-                return;
+                return res.render('auth/login', { message: 'Invalid credentials' });
             }
             if (bcrypt.compareSync(password, userFromDB.password)) {
                 req.session.user = userFromDB;
-                res.redirect('/private');
+                res.redirect('/');
             } else {
                 res.render('auth/login', { message: 'Invalid credentials' });
             }
-        })
-})
+        });
+});
 
-//middleware
-const loginCheck = () => {
-    return (req, res, next) => {
-        if (req.session.user) {
-            next();
-        } else {
-            res.redirect('/login');
-        }
-    }
-}
+// hai add logout
+router.get('/logout', (req, res) => {
+    req.logout();
+    req.session = null;
+    res.redirect('/');
+});
+
 
 // Hai change the lines to memories.js
 
-router.get('/private', loginCheck(), (req, res) => {
-    res.render('auth/private', { user: req.session.user });
-})
+// router.get('/private', loginCheck(), (req, res) => {
+//     res.render('auth/private', { user: req.session.user });
+// })
 
 router.get('/planning', loginCheck(), (req, res) => {
     res.render('auth/planning', { user: req.session.user });
-})
+});
 
+// I would remove this
 router.get('/city/:id', loginCheck(), (req, res, next) => {
     const cityId = req.params.id;
     Memories.findById(cityId)
         .then(city => {
             console.log(city);
             res.render('auth/city-show', { show: city })
-        })
-})
+        });
+});
 
 //edit & delete memories
 

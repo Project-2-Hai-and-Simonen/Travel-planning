@@ -6,26 +6,7 @@ const passport = require('passport');
 const GoogleStrategy = require("passport-google-oauth20").Strategy;
 const Memories = require('../../models/auth/Memories');
 const { uploadCloud, cloudinary } = require('../../config/auth/cloudinary');
-
-
-//middleware
-const loginCheck = () => {
-  return (req, res, next) => {
-      if (req.session.user) {
-          next();
-      } else {
-          res.redirect('/login');
-      }
-  }
-}
-
-router.post('/test', uploadCloud.single('photo'), (req, res) => {
-  console.log(req.file);
-});
-
-router.get('/test', (req, res) => {
-  res.render('test');
-});
+const { loginCheck } = require('../../middlewares/loginCheck');
 
 router.get('/', loginCheck(), (req, res) => {
   // console.log(req.session.user);
@@ -58,7 +39,7 @@ router.get('/:memoryID', loginCheck(), (req, res) => {
     });
 });
 
-router.post('/:memoryID', uploadCloud.single('photo'), loginCheck(), async (req, res) => {
+router.post('/:memoryID',loginCheck(), uploadCloud.single('photo'), async (req, res) => {
   const user = req.session.user;
   const {imgCaption, description} = req.body;
   const imgPath = req.file.path;

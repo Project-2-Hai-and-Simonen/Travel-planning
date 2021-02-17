@@ -3,24 +3,14 @@ const router = require('express').Router();
 const FavoriteCity = require('../../models/FavoriteCity');
 const Trip = require('../../models/Trip');
 const Memories = require('../../models/auth/Memories');
+const { loginCheck } = require('../../middlewares/loginCheck');
 
-//middleware
-const loginCheck = () => {
-  return (req, res, next) => {
-      if (req.session.user) {
-          next();
-      } else {
-          res.redirect('/login');
-      }
-  }
-}
-
-router.get('/', async (req, res) => {
-  // allow only user seeing its own trips
+router.get('/', loginCheck(), async (req, res) => {
+  const user = req.session.user;
   let trips;
   try {
     // add {user: req.user/session.id} later
-    trips = await Trip.find().populate('city');
+    trips = await Trip.find({user: user._id}).populate('city');
     res.render('favorites/visitedCities', {trips});
   } catch (error) {
     console.log(error);

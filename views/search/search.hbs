@@ -5,16 +5,16 @@
   <input type="text" name="query" id="query" placeholder="Berlin" required>
   <input type="button" onclick="submitForm()" value="Submit">
 </form>
-
-  <h1>Top 10 cities in the world</h1> 
-  {{!-- replace later by search result --}}
-  <div id="search-result">
-    <ul id="city-list">
-
-    </ul>
+<div class="row">
+  <div class="col-md-5 col-sm-12">
+    <h3>City List</h3> 
+    <div id="search-result">
+      <ul id="city-list"></ul>
+    </div>
   </div>
-  <div id="mapbox">
+  <div id="mapbox" class="col-md-7 col-sm-12">
     <div id='map' style='width: 850px; height: 600px;'></div>
   </div>
+</div>
 
 <script src="/js/citySearch.js"></script>
