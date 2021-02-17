@@ -1,0 +1,25 @@
+<div id="visited">
+    <div class="container">
+        <div class="row">
+            {{#each trips }}
+            <div class="col-md-6 col-sm-12 p-3">
+                <div class="card ">
+                    {{!-- <a href="/tracks/{{uri}}" class="card-link"></a> --}}
+                    {{!-- <img class="card-img-top" src="{{images.0.url}}" alt="{{name}}"> --}}
+                    <img class="card-img-top" src="{{img_default}}" alt="{{city.name}}">
+                    <div class="card-body bg-secondary d-flex justify-content-center m-0 p-0">
+                        <h5 class="card-title text-white pt-2 text-center pl-1 pr-1">{{ city.name }}</h5>
+                        <p>Visited from {{fromDate}} to {{toDate}}</p>
+                        <p>Rated for this trip: {{rating}}/5</p>
+                        <p>Visited {{city.name}} together with {{travellersNum}} traveller/s</p>
+                        <p>The cost for the trip was {{cost}}€</p>
+                        <p>Trip summary: {{summary}}</p>
+                        <a href="/details/{{city._id}}" class="btn btn-primary bg-danger">View City</a>
+                        <a href="/memories/{{city._id}}" class="btn btn-primary bg-danger">View Memory</a>
+                    </div>
+                </div>
+            </div>
+            {{/each}}
+        </div>
+    </div>
+</div>

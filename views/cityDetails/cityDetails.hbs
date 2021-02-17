@@ -82,14 +82,15 @@
               <label for="rating" class="col-8">Rate your trip</label>
               <div class="col-4">
                 <select class="form-control" name="rating" id="rating">
-                <option>1</option>
-                <option>2</option>
-                <option>3</option>
-                <option>4</option>
-                <option selected>5</option>
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5" selected>5</option>
               </select>
               </div>
             </div>
+            <input type="hidden" name="image" value="{{imageUrl}}">
             <div class="form-group text-center">
               <button type="submit" class="btn btn-login">Submit Your Trip</button>
             </div>

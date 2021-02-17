@@ -130,6 +130,9 @@ app.use("/details", details);
 const favorites = require("./routes/favorites/favorites");
 app.use("/favorites", favorites);
 
+const vistedTrips = require("./routes/favorites/visited");
+app.use("/visited", vistedTrips);
+
 
 
 // ❗ To handle errors. Routes that don't exist or errors that you handle in specific routes

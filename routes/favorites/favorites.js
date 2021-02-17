@@ -1,6 +1,7 @@
 const axios = require('axios');
 const router = require('express').Router();
 const FavoriteCity = require('../../models/FavoriteCity');
+const Trip = require('../../models/Trip');
 
 router.get('/', async (req, res) => {
   // later change it to user specific
@@ -27,10 +28,6 @@ router.post('/', async (req, res) => {
     console.log(error);
     res.render('error');
   }
-});
-
-router.post('/visited/:id', (req, res) => {
-  res.render('error');
 });
 
 module.exports = router;
