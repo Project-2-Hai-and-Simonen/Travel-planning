@@ -77,4 +77,40 @@ router.get('/:id/delete', (req, res) => {
         })
 })
 
+
+router.get('/:id/edit', (req, res, next) => {
+    const user = req.session.user;
+    Vacation.findOne({ user: user._id, _id: req.params.id })
+        .then(planFromDB => {
+            res.render('planning/edit', { city: planFromDB });
+        })
+        .catch(err => {
+            console.log(err);
+        })
+})
+
+router.post('/:id/edit', (req, res) => {
+    const cityId = req.params.id;
+    const location = req.body.location;
+    const travelers = req.body.travelers;
+    const from = req.body.from;
+    const to = req.body.to;
+    const budget = req.body.budget;
+    const user = req.session.user;
+    Vacation.findOneAndUpdate(cityId, {
+            location: location,
+            travelers: travelers,
+            from: from,
+            to: to,
+            budget: budget
+
+        })
+        .then(city => {
+            res.redirect(`/${city._id}`);
+        })
+        .catch(err => {
+            console.log(err);
+        })
+})
+
 module.exports = router;
