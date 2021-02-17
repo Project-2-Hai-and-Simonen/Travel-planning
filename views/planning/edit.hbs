@@ -1,0 +1,24 @@
+<h2>Edit memory</h2>
+
+{{#with city}}
+<div>
+  <label for="location">Select location:</label>
+<input type="text" id="location" name="location" placeholder="{{location}}" required>
+</div>
+<div>
+<label for="travelers">Number of travelers:</label>
+<input type="number" id="travelers" name="travelers" min="1" placeholder="{{travelers}}" required>
+</div>
+<div>
+<label for="budget">Your budget(€):</label>
+<input type="number" id="budget" name="budget" min="0" placeholder="{{budget}}" required>
+</div>
+<div>
+<label for="from">From:</label>
+<input type="date" id="from" name="from" required>
+<label for="to">To:</label>
+<input type="date" id="to" name="to" required>
+</div>
+  <button type="submit">Update</button>
+</form>
+{{/with}}

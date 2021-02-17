@@ -1,0 +1,23 @@
+<h3>Planning your next vacation</h3>
+<form action="/planning/add" method="POST">
+<div>
+  <label for="location">Select location:</label>
+<input type="text" id="location" name="location" placeholder="Berlin" required>
+</div>
+<div>
+<label for="travelers">Number of travelers:</label>
+<input type="number" id="travelers" name="travelers" min="1" placeholder="1" required>
+</div>
+<div>
+<label for="budget">Your budget(€):</label>
+<input type="number" id="budget" name="budget" min="0" placeholder="100" required>
+</div>
+<div>
+<label for="from">From:</label>
+<input type="date" id="from" name="from" required>
+<label for="to">To:</label>
+<input type="date" id="to" name="to" required>
+</div>
+
+<button type="submit">add new plan</button>
+</form>
