@@ -44,10 +44,10 @@ router.get('/', loginCheck(), (req, res) => {
 });
 
 // Hai add memories/:id
-router.get('/:id', loginCheck(), (req, res) => {
+router.get('/:memoryID', loginCheck(), (req, res) => {
   const username = req.session.user.username;
   const userID = req.session.user._id;
-  Memories.findOne({user: userID, _id: req.params.id})
+  Memories.findOne({user: userID, _id: req.params.memoryID})
     .populate('city')
     .then(memory => {
       res.render('memories/memory', { memory, username });
@@ -63,9 +63,10 @@ router.post('/:memoryID', uploadCloud.single('photo'), loginCheck(), async (req,
   const {imgCaption, description} = req.body;
   const imgPath = req.file.path;
   const imgName = req.file.originalname;
+  const publicId = req.file.filename;
   try {
     let memory = await Memories.findOne({user: user._id, _id: req.params.memoryID});
-    memory.stories.push({imgCaption, description, imgName, imgPath});
+    memory.stories.push({imgCaption, description, imgName, imgPath, publicId});
     await memory.save();
     res.redirect(`/memories/${req.params.memoryID}`);
   } catch (error) {
@@ -74,25 +75,62 @@ router.post('/:memoryID', uploadCloud.single('photo'), loginCheck(), async (req,
   }
 });
 
-//add memories
-router.get('/add', (req, res, next) => {
-  res.render('auth/memories-add');
-});
+// //add memories
+// router.get('/add', (req, res, next) => {
+//   res.render('auth/memories-add');
+// });
 
-router.post('/add', uploadCloud.single('photo'), loginCheck(), (req, res, next) => {
-  console.log('?????', req.file);
-  const name = req.body.name;
-  const description = req.body.description;
-  const imgPath = req.file.path;
-  const imgName = req.file.originalname;
-  const publicId = req.file.filename
-  Memories.create({ name, description, imgPath, imgName, publicId })
-      .then(() => {
-          res.redirect('/memories')
+// router.post('/add', loginCheck(), uploadCloud.single('photo'), (req, res, next) => {
+//   console.log('?????', req.file);
+//   const name = req.body.name;
+//   const description = req.body.description;
+//   const imgPath = req.file.path;
+//   const imgName = req.file.originalname;
+//   const publicId = req.file.filename;
+//   Memories.create({ name, description, imgPath, imgName, publicId })
+//       .then(() => {
+//           res.redirect('/memories')
+//       })
+//       .catch(err => {
+//           next(err);
+//       });
+// });
+
+// this is for popup/modal
+router.get('/:memoryID/delete/:storyID', loginCheck(), (req, res) => {
+  const user = req.session.user;
+  const memoryID = req.params.memoryID;
+  const storyID = req.params.storyID;
+  const cityId = req.params.id;
+  Memories.findOne({user: user._id, _id: memoryID})
+      .then(async memory => {
+        for (let i=0; i < memory.stories.length; i++) {
+          let publicId = memory.stories[i].publicId;
+          if (memory.stories[i]._id.equals(storyID)) {
+            // still not possible to destroy, cloudinary.uploadCloud = undefined
+            // cloudinary.uploadCloud.destroy(publicId)
+            memory.stories.splice(i, 1);
+            await memory.save();
+          }
+        }
+        res.redirect(`/memories/${memoryID}`);
       })
       .catch(err => {
-          next(err);
-      })
+          console.log(err);
+      });
 });
+
+router.post('/:memoryID/edit/:storyID', (req, res, next) => {
+  const user = req.session.user;
+  const memoryID = req.params.memoryID;
+  const storyID = req.params.storyID;
+  //console.log('tryId', cityId)
+  Memories.findById(cityId)
+      .then(cityFromDB => {
+          //console.log('test', cityFromDB);
+          res.render('auth/edit', { city: cityFromDB });
+      });
+});
+
 
 module.exports = router;

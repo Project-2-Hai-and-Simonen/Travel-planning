@@ -4,31 +4,48 @@
 <img src="{{imgPath}}">
 <p>{{imgCaption}}</p>
 <p>{{description}}</p>
+<a href="/memories/{{../memory._id}}/delete/{{_id}}">Delete this picture</a>
+<button id={{}}>Edit this picture</button>
+<a href="/memories/{{../memory._id}}/edit/{{_id}}">Edit this picture</a>
 {{/each}}
 
-<form action="/memories/{{memory._id}}" class="login-form ml-5 mr-5" method="post" enctype="multipart/form-data">
-  <div class="form-group row p-1 m-0">
-    <label for="imgCaption" class="col-9 col-form-label p-0">Image Caption</label>
-    <div class="col-3">
-      <input class="form-control" name="imgCaption" type="text" id="imgCaption" required>
+
+
+<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#visitedModal"><i class="fas fa-user-plus fa-lg"></i><span class="md-hidden d-inline"> Visited? Add to History</span></a></button>
+
+<div class="modal fade" id="visitedModal" tabindex="-1" role="dialog" aria-labelledby="visitedModalTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLongTitle">Visited City Form - {{city.name}}</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <form action="/memories/{{memory._id}}" class="login-form ml-5 mr-5" method="post" enctype="multipart/form-data">
+            <div class="form-group row p-1 m-0">
+              <label for="imgCaption" class="col-9 col-form-label p-0">Image Caption</label>
+              <div class="col-3">
+                <input class="form-control" name="imgCaption" type="text" id="imgCaption" required>
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="description">Your Story:</label>
+              <textarea class="form-control" name="description" id="description" rows="5" required></textarea>
+            </div>
+            <div class="form-group">
+              <label for="photo">Upload A Photo</label>
+              <input type="file" class="form-control-file" name="photo" id="photo">
+            </div>
+            {{!-- <input type="hidden" name="image" value="{{imageUrl}}"> --}}
+            <div class="form-group text-center">
+              <button type="submit" class="btn btn-login">Add a Story</button>
+            </div>
+          </form>
+        </div>
+      </div>
     </div>
   </div>
-  <div class="form-group">
-    <label for="description">Your Story:</label>
-    <textarea class="form-control" name="description" id="description" rows="5" required></textarea>
-  </div>
-  <div class="form-group">
-    <label for="photo">Upload A Photo</label>
-    <input type="file" class="form-control-file" name="photo" id="photo">
-  </div>
-  {{!-- <input type="hidden" name="image" value="{{imageUrl}}"> --}}
-  <div class="form-group text-center">
-    <button type="submit" class="btn btn-login">Add a Story</button>
-  </div>
-</form>
-
-
-<button type="submit"><a href="/memories/add">Add story</a></button>
-<button type="submit"><a href="/private">Back Home</a></button>
 
 

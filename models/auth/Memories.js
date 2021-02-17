@@ -18,6 +18,7 @@ const memoriesSchema = new Schema({
         description: String,
         imgName: String,
         imgPath: String,
+        publicId: String,
     }],
 });
 

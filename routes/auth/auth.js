@@ -123,49 +123,5 @@ router.get('/city/:id', loginCheck(), (req, res, next) => {
 //             console.log(err);
 //         })
 // })
-router.get('/city/:id/delete', (req, res) => {
-    const cityId = req.params.id;
-    Memories.findByIdAndDelete(cityId)
-        .then(city => {
-            if (city.imgPath) {
-                cloudinary.uploadCloud.destroy(city.publicId);
-            }
-            res.redirect('/memories')
-        })
-        .catch(err => {
-            console.log(err);
-        })
-})
-
-router.get('/city/:id/edit', (req, res, next) => {
-    const cityId = req.params.id;
-    //console.log('tryId', cityId)
-    Memories.findById(cityId)
-        .then(cityFromDB => {
-            //console.log('test', cityFromDB);
-            res.render('auth/edit', { city: cityFromDB });
-        })
-})
-
-router.post('/city/:id/edit', (req, res) => {
-    const cityId = req.params.id;
-    const name = req.body.name;
-    const description = req.body.description;
-    const imgPath = req.file.path;
-    const imgName = req.file.originalname;
-    console.log(name)
-    Memories.findByIdAndUpdate(cityId, {
-            name: name,
-            description: description,
-            imgName: imgName,
-            imgPath: imgPath
-        })
-        .then(city => {
-            res.redirect(`/city/${city._id}`);
-        })
-        .catch(err => {
-            console.log(err);
-        })
-})
 
 module.exports = router;

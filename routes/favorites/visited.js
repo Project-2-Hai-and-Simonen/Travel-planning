@@ -35,9 +35,9 @@ router.post('/:id', loginCheck(), async (req, res) => {
   const userId = req.session.user._id;
   const {fromDate, toDate, travellersNum, cost, summary, rating, image } = req.body;
 
-  // create the trip 
+  // Minimize number of the db calls later
   try {
-    const trip = await Trip.create({city: cityId, fromDate, toDate, travellersNum, cost, summary, rating, img_default: image});
+    const trip = await Trip.create({user: userId, city: cityId, fromDate, toDate, travellersNum, cost, summary, rating, img_default: image});
     let memory;
     // check if the memory in this city exists, if not create one
     try {
@@ -45,6 +45,8 @@ router.post('/:id', loginCheck(), async (req, res) => {
       if (memory === null) {
         memory = await Memories.create({user: userId, city: cityId, tripId: trip._id, stories: []});
       }
+      trip.memory = memory._id;
+      await trip.save();
       // res.redirect('/visited');
       res.redirect(`/memories/${memory._id}`);
     } catch (error) {

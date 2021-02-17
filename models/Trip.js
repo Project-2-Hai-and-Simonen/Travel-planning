@@ -2,9 +2,17 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const tripSchema = new Schema({
+  user: {
+    type: Schema.Types.ObjectId,
+    ref: 'User'
+  },
   city: {
     type: Schema.Types.ObjectId,
     ref: 'City'
+  },
+  memory: {
+    type: Schema.Types.ObjectId,
+    ref: 'Memory'
   },
   fromDate: Date,
   toDate: Date,
