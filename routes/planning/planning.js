@@ -60,9 +60,21 @@ router.get('/:id', loginCheck(), (req, res, next) => {
             console.log(plan);
             res.render('planning/plan', { plan })
         })
+        .catch(err => {
+            console.log("erro:", err);
+            next(err);
+        })
 })
 
-
-
+router.get('/:id/delete', (req, res) => {
+    const user = req.session.user;
+    Vacation.findOneAndDelete({ user: user._id, _id: req.params.id })
+        .then(plan => {
+            res.redirect('/planning')
+        })
+        .catch(err => {
+            console.log(err);
+        })
+})
 
 module.exports = router;
