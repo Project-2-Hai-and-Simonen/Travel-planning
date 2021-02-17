@@ -1,0 +1,34 @@
+{{!-- This equivalent to city-show.hbs --}}
+<h1>{{username}}'s stories at {{memory.city.name}} City</h1>
+{{#each memory.stories }}
+<img src="{{imgPath}}">
+<p>{{imgCaption}}</p>
+<p>{{description}}</p>
+{{/each}}
+
+<form action="/memories/{{memory._id}}" class="login-form ml-5 mr-5" method="post" enctype="multipart/form-data">
+  <div class="form-group row p-1 m-0">
+    <label for="imgCaption" class="col-9 col-form-label p-0">Image Caption</label>
+    <div class="col-3">
+      <input class="form-control" name="imgCaption" type="text" id="imgCaption" required>
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="description">Your Story:</label>
+    <textarea class="form-control" name="description" id="description" rows="5" required></textarea>
+  </div>
+  <div class="form-group">
+    <label for="photo">Upload A Photo</label>
+    <input type="file" class="form-control-file" name="photo" id="photo">
+  </div>
+  {{!-- <input type="hidden" name="image" value="{{imageUrl}}"> --}}
+  <div class="form-group text-center">
+    <button type="submit" class="btn btn-login">Add a Story</button>
+  </div>
+</form>
+
+
+<button type="submit"><a href="/memories/add">Add story</a></button>
+<button type="submit"><a href="/private">Back Home</a></button>
+
+

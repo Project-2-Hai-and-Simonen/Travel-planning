@@ -32,11 +32,11 @@ router.post('/signup', (req, res, next) => {
     const { username, password } = req.body;
     console.log(username, password);
     if (password.length < 8) {
-        return res.render('signup', { message: 'Your password has to be 8 chars min' });
+        return res.render('auth/signup', { message: 'Your password has to be 8 chars min' });
     }
     if (username === '') {
-        res.render('signup', { message: 'Your username cannot be empty' });
-        return
+        res.render('auth/signup', { message: 'Your username cannot be empty' });
+        return;
     }
 
     User.findOne({ username: username })
@@ -92,42 +92,11 @@ const loginCheck = () => {
     }
 }
 
+// Hai change the lines to memories.js
 
 router.get('/private', loginCheck(), (req, res) => {
     res.render('auth/private', { user: req.session.user });
 })
-
-router.get('/memories', loginCheck(), (req, res) => {
-    console.log(req.session.user);
-    Memories.find()
-        .then(memories => {
-            res.render('auth/memories', { user: req.session.user, memories });
-        })
-        .catch(err => {
-            console.log(err);
-        })
-})
-
-//add memories
-router.get('/memories/add', (req, res, next) => {
-    res.render('auth/memories-add');
-});
-
-router.post('/memories/add', uploadCloud.single('photo'), loginCheck(), (req, res, next) => {
-    console.log('?????', req.file);
-    const name = req.body.name;
-    const description = req.body.description;
-    const imgPath = req.file.path;
-    const imgName = req.file.originalname;
-    const publicId = req.file.filename
-    Memories.create({ name, description, imgPath, imgName, publicId })
-        .then(() => {
-            res.redirect('/memories')
-        })
-        .catch(err => {
-            next(err);
-        })
-});
 
 router.get('/planning', loginCheck(), (req, res) => {
     res.render('auth/planning', { user: req.session.user });

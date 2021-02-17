@@ -121,6 +121,9 @@ app.use("/", index);
 const auth = require("./routes/auth/auth");
 app.use("/", auth);
 
+const memories = require("./routes/memories/memories");
+app.use("/memories", memories);
+
 const search = require("./routes/search/search");
 app.use("/search", search);
 
