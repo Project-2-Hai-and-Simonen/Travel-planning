@@ -1,0 +1,22 @@
+<h1>{{username}}'s memories</h1>
+
+{{#if memories.length}}
+  {{#each memories}}
+    <div class="col-lg-4 col-md-6 col-sm-12 p-3">
+      <div class="card ">
+        <img class="card-img-top" src="{{stories.[0].imgPath}}" alt="{{stories.[0].imgName}}">
+        <div class="card-body bg-secondary d-flex justify-content-center m-0 p-0">
+            <h5 class="card-title text-white pt-2 text-center pl-1 pr-1">{{ city.name }}</h5>
+            <a href="/memories/{{_id}}" class="btn btn-primary bg-danger">View Story</a>
+        </div>
+      </div>
+    </div>
+  {{/each}}
+{{else}}
+  <p>add a button to add story here - Hai</p>
+  <p>Ups! There are no memories yet!</p>
+{{/if}}
+<button type="submit"><a href="/memories/add">Add memory</a></button>
+<button type="submit"><a href="/private">Back Home</a></button>
+
+

@@ -1,0 +1,49 @@
+{{!-- This equivalent to city-show.hbs --}}
+<h1>{{username}}'s stories at {{memory.city.name}} City</h1>
+{{#each memory.stories }}
+<img src="{{imgPath}}">
+<p>{{imgCaption}}</p>
+<p>{{description}}</p>
+<p><a href="/memories/{{../memory._id}}/delete/{{_id}}">Delete this picture</a></p>
+{{!-- <button id={{}}>Edit this picture</button> --}}
+{{!-- <a href="/memories/{{../memory._id}}/edit/{{_id}}">Edit this picture</a> --}}
+{{/each}}
+
+<p></p>
+
+<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addStoryModal"><i class="fas fa-user-plus fa-lg"></i><span class="md-hidden d-inline"> Add a Story</span></a></button>
+
+<div class="modal fade" id="addStoryModal" tabindex="-1" role="dialog" aria-labelledby="addStoryModalTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLongTitle">Add your story of {{city.name}} city</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form action="/memories/{{memory._id}}" class="login-form ml-5 mr-5" method="post" enctype="multipart/form-data">
+          <div class="form-group">
+            <label for="imgCaption">Image Caption</label>
+            <input class="form-control" name="imgCaption" type="text" id="imgCaption" required>
+          </div>
+          <div class="form-group">
+            <label for="description">Your Story:</label>
+            <textarea class="form-control" name="description" id="description" rows="5" required></textarea>
+          </div>
+          <div class="form-group">
+            <label for="photo">Upload A Photo</label>
+            <input type="file" class="form-control-file" name="photo" id="photo">
+          </div>
+          {{!-- <input type="hidden" name="image" value="{{imageUrl}}"> --}}
+          <div class="form-group text-center">
+            <button type="submit" class="btn btn-login">Add a Story</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+

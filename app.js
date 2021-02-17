@@ -34,10 +34,11 @@ app.use(
             secret: process.env.SESSION_SECRET,
             cookie: { maxAge: 1000 * 60 * 60 * 24 },
             saveUninitialized: false,
-            resave: true,
+            resave: false,
             store: new MongoStore({
                 mongooseConnection: mongoose.connection
-            })
+            }),
+            unset: 'destroy'
         })
     )
     // end of session configuration
@@ -118,13 +119,25 @@ app.locals.title = `${capitalized(projectName)}`;
 const index = require("./routes/index");
 app.use("/", index);
 
+const auth = require("./routes/auth/auth");
+app.use("/auth", auth);
+
+const memories = require("./routes/memories/memories");
+app.use("/memories", memories);
+
 const search = require("./routes/search/search");
 app.use("/search", search);
 
 const details = require("./routes/cityDetails/cityDetails");
 app.use("/details", details);
-const auth = require("./routes/auth/auth");
-app.use("/", auth);
+
+const favorites = require("./routes/favorites/favorites");
+app.use("/favorites", favorites);
+
+const vistedTrips = require("./routes/favorites/visited");
+app.use("/visited", vistedTrips);
+
+
 
 // ❗ To handle errors. Routes that don't exist or errors that you handle in specific routes
 require("./error-handling")(app);

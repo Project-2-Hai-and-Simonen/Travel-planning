@@ -6,7 +6,12 @@ const Top10City = require('../../models/Top10City');
 
 
 router.get('/', (req, res) => {
-  res.render('search/search');
+  let username;
+  try {
+    username = req.session.user.username;
+  } catch (error) {}
+  console.log(username)
+  res.render('search/search', {username});
 });
 
 // request from frontend js via axios
