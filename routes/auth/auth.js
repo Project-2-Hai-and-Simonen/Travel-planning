@@ -5,6 +5,7 @@ const bcryptSalt = 10;
 const passport = require('passport');
 const GoogleStrategy = require("passport-google-oauth20").Strategy;
 const Memories = require('../../models/auth/Memories');
+const Vacation = require('../../models/auth/Vacation');
 const { uploadCloud, cloudinary } = require('../../config/auth/cloudinary');
 
 router.get(
@@ -129,9 +130,6 @@ router.post('/memories/add', uploadCloud.single('photo'), loginCheck(), (req, re
         })
 });
 
-router.get('/planning', loginCheck(), (req, res) => {
-    res.render('auth/planning', { user: req.session.user });
-})
 
 router.get('/city/:id', loginCheck(), (req, res, next) => {
     const cityId = req.params.id;

@@ -1,0 +1,10 @@
+<h1>{{user.username}}'s plans</h1>
+
+{{#each plans}}
+<a href="/plans/{{_id}}"><h2>{{location}}</h2></a>
+{{else}}
+  <p>Ups! There are no plans yet!</p>
+{{/each}}
+<button type="submit"><a href="/planning/add">Next Vacation</a></button>
+<button type="submit"><a href="/private">Back Home</a></button>
+
