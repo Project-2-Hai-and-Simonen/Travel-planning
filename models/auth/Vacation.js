@@ -6,9 +6,9 @@ const vacationSchema = new Schema({
         type: Schema.Types.ObjectId,
         ref: 'User'
     },
-    location: {
-        type: String,
-        required: true
+    city: {
+        type: Schema.Types.ObjectId,
+        ref: 'City'
     },
     travelers: {
         type: Number,

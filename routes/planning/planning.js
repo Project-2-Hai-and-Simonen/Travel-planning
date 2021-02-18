@@ -7,6 +7,7 @@ const GoogleStrategy = require("passport-google-oauth20").Strategy;
 const Memories = require('../../models/auth/Memories');
 const Vacation = require('../../models/auth/Vacation');
 const { uploadCloud, cloudinary } = require('../../config/auth/cloudinary');
+const Favorite = require('../../models/FavoriteCity');
 
 const loginCheck = () => {
         return (req, res, next) => {
@@ -21,7 +22,9 @@ const loginCheck = () => {
 router.get('/', loginCheck(), (req, res) => {
     const user = req.session.user;
     Vacation.find({ user: user._id })
+        .populate('city')
         .then(plans => {
+            console.log(plans)
             res.render('planning/plans', { user: req.session.user, plans });
         })
         .catch(err => {
@@ -29,20 +32,28 @@ router.get('/', loginCheck(), (req, res) => {
         })
 })
 
-router.get('/add', (req, res, next) => {
-    res.render('planning/add-plan');
+router.get('/add', loginCheck(), (req, res, next) => {
+    const user = req.session.user;
+    Favorite.find({ user: user._id })
+        .populate('city')
+        .then(cities => {
+            res.render('planning/add-plan', { user: req.session.user, cities });
+        })
+        .catch(err => {
+            console.log(err);
+        })
 });
 
 router.post('/add', loginCheck(), (req, res) => {
     //     // a form information
-    const location = req.body.location;
+    const city = req.body.city;
     const travelers = req.body.travelers;
     const from = req.body.from;
     const to = req.body.to;
     const budget = req.body.budget;
     const user = req.session.user;
 
-    Vacation.create({ location, travelers, from, to, budget, user: user._id })
+    Vacation.create({ city, travelers, from, to, budget, user: user._id })
         .then((plan) => {
             console.log(plan)
             res.redirect('/planning')
@@ -56,6 +67,7 @@ router.post('/add', loginCheck(), (req, res) => {
 router.get('/:id', loginCheck(), (req, res, next) => {
     const user = req.session.user;
     Vacation.findOne({ user: user._id, _id: req.params.id })
+        .populate('city')
         .then(plan => {
             console.log(plan);
             res.render('planning/plan', { plan })

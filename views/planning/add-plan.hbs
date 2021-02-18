@@ -1,8 +1,12 @@
 <h3>Planning your next vacation</h3>
 <form action="/planning/add" method="POST">
 <div>
-  <label for="location">Select location:</label>
-<input type="text" id="location" name="location" placeholder="Berlin" required>
+  <label for="city">Select cities:</label>
+<select name="city" id="city">
+  {{#each cities}}
+  <option value={{city._id}}>{{city.name}}</option>
+  {{/each}}
+</select>
 </div>
 <div>
 <label for="travelers">Number of travelers:</label>
@@ -21,3 +25,4 @@
 
 <button type="submit">add new plan</button>
 </form>
+
