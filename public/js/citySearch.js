@@ -8,10 +8,14 @@ const map = new mapboxgl.Map({
   doubleClickZoom: true,
 });
 
+const nav = new mapboxgl.NavigationControl();
+map.addControl(nav, 'top-left');
+
 let markers = [];
 
 // list of search results
-const searchResultList = document.getElementById('city-list');
+const searchResultList = document.getElementById('search-result');
+console.log(searchResultList);
 
 // initialize the first most 10-visited cities and map
 window.addEventListener('load', async (event) => {
@@ -41,22 +45,46 @@ async function submitForm() {
   return false;
 }
 
+// go to the place upon click map
+function mapLookup(long, lat) {
+  map.flyTo({center: [long, lat], zoom: 9});
+}
 
 
 // function here
 function cityGenerator(cities) {
-  cities.forEach(city => {
-    liGenerator(city, searchResultList);
+  cities.forEach((city, i) => {
+    divGenerator(city, searchResultList, i);
     generateMarker(city.loc.coordinates[0], city.loc.coordinates[1], map);
   });
 }
 
-function liGenerator (city, list) {
-  const li = document.createElement("li");
-  // change style="display" later
-  li.innerHTML = `<h2 style="display: inline;">${city.name}, ${city.country}</h2> <a href="/details/${city._id}" class="link-btn">View City</a>`;
-  list.appendChild(li);
+function divGenerator (city, container, index) {
+  let cardColor = index%2===0 ? "card-color-1" : "card-color-2";
+  const div = document.createElement('div');
+  div.className = "card-city";
+  div.classList.add("row");
+  div.classList.add(`${cardColor}`);
+  div.classList.add("mb-1");
+  div.innerHTML = `
+      <div class="col-8">
+        <h4 class="text-white">${city.name}</h4>
+        <h5>${city.country}</h5>
+      </div>
+      <div class="col-4 d-flex justify-content-end">
+        <a href="javascript:mapLookup(${city.loc.coordinates})" class="link-btn btn-view">Map</a>
+        <a href="/details/${city._id}" class="link-btn btn-view">Detail</a>
+      </div>
+    `;
+  container.appendChild(div);
 }
+
+// function liGenerator (city, list) {
+//   const li = document.createElement("li");
+//   // change style="display" later
+//   li.innerHTML = `<h2 style="display: inline;">${city.name}, ${city.country}</h2> <a href="/details/${city._id}" class="link-btn">View City</a>`;
+//   list.appendChild(li);
+// }
 
 function generateMarker(longitude, latitude, map) {
   const marker = new mapboxgl.Marker({
