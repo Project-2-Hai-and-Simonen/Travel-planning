@@ -2,14 +2,21 @@ const axios = require('axios');
 
 // move later to helpers folder
 function unixConverter(unixTime) {
+  const  months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+  const weekdays = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+  const weekdays_short = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
   const date = new Date(unixTime * 1000);
   const year = date.getFullYear();
   const month = date.getMonth()+1;
   const day = date.getDate();
+  const day_num = date.getDay();
+  const weekday = weekdays[day_num];
   const hours = date.getHours();
   const minutes = date.getMinutes();
   const seconds = date.getSeconds();
-  return {year, month, day, hours, minutes, seconds};
+  const month_letters = months[month-1];
+  const weekday_short = weekdays_short[day_num];
+  return {year, month, day, hours, minutes, seconds, weekday, weekday_short, month_letters};
 }
 // module.exports = unixConverter;
 
@@ -17,13 +24,19 @@ function tempDataForGraph(data) {
   let days = [];
   let tempsDay = [];
   let tempsNight = [];
+  let days_letters = [];
+  let weathers = [];
+  let icons = [];
   data.forEach(day => {
     const time = unixConverter(day.dt);
     days.push(`${time.day}/${time.month}`);
     tempsDay.push(day.temp.day);
     tempsNight.push(day.temp.night);
+    days_letters.push(unixConverter(day.dt).weekday_short);
+    weathers.push(day.weather[0].main);
+    icons.push(`http://openweathermap.org/img/wn/${day.weather[0].icon}@2x.png`);
   });
-  return {days, tempsDay, tempsNight};
+  return {days, tempsDay, tempsNight, days_letters, weathers, icons};
 }
 
 async function getImage(city) {

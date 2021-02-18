@@ -27,15 +27,160 @@
             <li><a href="/memories">Memories</a></li>
             <li><a href="/auth/logout">Logout</a></li>
             {{else}}
-            <li><a href="/auth/signup">Signup</a></li>
-            <li><a href="/auth/login">Login</a></li>
+            <li class="nav-item mr-3"><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#signupModal"><i class="fas fa-user-plus fa-lg"></i><span class="md-hidden d-inline"> Register</span></a></button></li>
+            <li class="nav-item mr-3"><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#loginModal"><i class="fas fa-sign-in-alt fa-lg"></i><span class="md-hidden d-inline"> Log In</span></a></button></li>
+            {{!-- <li><a href="/auth/signup">Signup</a></li>
+            <li><a href="/auth/login">Login</a></li> --}}
             {{/if }}
         </ul>
     </nav>
    <body>
 
       {{{body}}}
+     <!-- Button trigger modals  for register and login-->
+  <!-- Modal for Login -->
+  {{#unless username }}
+  <div class="modal fade" id="loginModal" tabindex="-1" role="dialog" aria-labelledby="loginModalTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLongTitle">Login Form</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+         {{#if message}}        
+          <div class="alert alert-warning alert-dismissible fade show text-center" id="signin-failed" role="alert">
+            <strong>{{message}}</strong>
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+         {{/if}}
+          <form action="/auth/login" class="login-form ml-5 mr-5" method="post">
+            <div class="input-group form-group">
+              <div class="input-group-prepend">
+                <span class="input-group-text"><i class="fas fa-user"></i></span>
+              </div>
+              <input type="text" class="form-control" name="username" placeholder="username" required>
+            </div>
+            <div class="input-group form-group">
+              <div class="input-group-prepend">
+                <span class="input-group-text"><i class="fas fa-key"></i></span>
+              </div>
+              <input type="password" name="password" class="form-control" placeholder="password" required>
+            </div>
+            {{!-- <div class="text-center pb-2">
+              <input type="checkbox" class="mr-3">Remember Me
+            </div> --}}
+            <div class="form-group text-center">
+              <button type="submit" class="btn btn-login">Log In</button>
+            </div>
+          </form>
+        </div>
+        <div class="row m-0 p-0">
+          <div class="col-4">
+            <hr>
+          </div>
+          <div class="col-4 text-center">
+            <p>Or</p>
+          </div>
+          <div class="col-4">
+            <hr>
+          </div>
+        </div>
+        <form class="text-center">
+          <button type="button" class="btn btn-secondary btn-register mb-3" data-dismiss="modal" data-toggle="modal" data-target="#signupModal">New Account</button>
+        </form>
+      </div>
+    </div>
+  </div>
 
+  <!-- Modal for register -->
+  <div class="modal fade" id="signupModal" tabindex="-1" role="dialog" aria-labelledby="signupModalTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLongTitle">Register Form</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          {{#if message}}
+          <div class="alert alert-warning alert-dismissible fade show text-center" id="signup-failed" role="alert">
+            <strong>{{ message }}</strong>
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          {{/if}}
+          <form action="/auth/signup" method="post">
+            <div class="form-row">
+              <div class="col-md-6 input-group form-group">
+                <div class="input-group-prepend">
+                  <span class="input-group-text"><i class="fas fa-user"></i></span>
+                </div>
+                <input type="text" class="form-control" name="firstName" placeholder="First Name" required>
+              </div>
+              <div class="col-md-6 input-group form-group">
+                <div class="input-group-prepend">
+                  <span class="input-group-text"><i class="fas fa-user"></i></span>
+                </div>
+                <input type="text" class="form-control" name="lastName" placeholder="Last Name" required>
+              </div>
+              <div class="col-md-12 input-group form-group">
+                <div class="input-group-prepend">
+                  <span class="input-group-text"><i class="fas fa-user-plus"></i></span>
+                </div>
+                <input type="text" class="form-control" name="username" placeholder="Username" minlength="3" required>
+              </div>
+              <div class="col-md-6 input-group form-group">
+                <div class="input-group-prepend">
+                  <span class="input-group-text"><i class="fas fa-key"></i></span>
+                </div>
+                <input type="password" name="password" class="form-control" placeholder="Password" required>
+              </div>
+              <div class="col-md-6 input-group form-group">
+                <div class="input-group-prepend">
+                  <span class="input-group-text"><i class="fas fa-key"></i></span>
+                </div>
+                <input type="password" name="confirmation" class="form-control" placeholder="Confirmation" required>
+              </div>
+              <div class="col-md-12 input-group form-group">
+                <div class="input-group-prepend">
+                  <span class="input-group-text"><i class="fas fa-envelope"></i></span>
+                </div>
+                <input type="email" name="email" class="form-control" placeholder="Your email" required>
+              </div>
+            </div>
+            <div class="justify-content-center pb-2 text-center">
+              <input type="checkbox" class="mr-3" required>I agree to the term of use
+            </div>
+            <div class="form-group text-center">
+              <button type="submit" class="btn btn-login">Register</button>
+            </div>
+          </form>
+        </div>
+        <div class="row m-0 p-0">
+          <div class="col-4">
+            <hr>
+          </div>
+          <div class="col-4">
+            <p class="text-center">Or</p>
+          </div>
+          <div class="col-4">
+            <hr>
+          </div>
+        </div>
+        <form class="text-center">
+          <button type="button" class="btn btn-secondary btn-register mb-3" data-dismiss="modal" data-toggle="modal" data-target="#loginModal">Login</button>
+        </form>
+      </div>
+    </div>
+  </div>
+  {{/unless}}
    <script src="/js/script.js"></script>
    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>

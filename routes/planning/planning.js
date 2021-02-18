@@ -44,16 +44,12 @@ router.get('/add', loginCheck(), (req, res, next) => {
         })
 });
 
-router.post('/add', loginCheck(), (req, res) => {
+router.post('/add/:cityID', loginCheck(), (req, res) => {
     //     // a form information
-    const city = req.body.city;
-    const travelers = req.body.travelers;
-    const from = req.body.from;
-    const to = req.body.to;
-    const budget = req.body.budget;
+    const city = req.params.cityID;
     const user = req.session.user;
-
-    Vacation.create({ city, travelers, from, to, budget, user: user._id })
+    const {travelers, from, to, budget, preferences,  image} = req.body;
+    Vacation.create({ city, travelers, preferences, from, to, budget, user: user._id, image })
         .then((plan) => {
             console.log(plan)
             res.redirect('/planning')

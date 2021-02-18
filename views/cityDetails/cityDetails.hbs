@@ -1,105 +1,194 @@
+<div class="container d-flex justify-content-center flex-column align-items-center">
+  <h1 class="text-center">{{city.name}} details</h1>
+  <div class="container-weather">
+    <div class="weather-side" style="background-image: url({{imageUrl}});">
+      <div class="weather-gradient"></div>
+      <div class="date-container">
+        <h2 class="date-dayname">{{currentDate.weekday}}</h2><span class="date-day">{{currentDate.day}}
+          {{currentDate.month_letters}} {{currentDate.year}}</span><i class="location-icon"
+          data-feather="map-pin"></i><span class="location">{{city.name}}, {{city.country}}</span>
+      </div>
+      <div class="weather-container"><i class="weather-icon" data-feather="sun"></i>
+        <h1 class="weather-temp">{{currentWeather.main.temp}}°C</h1>
+        <h3 class="weather-desc">{{currentWeather.weather.[0].main}}</h3>
+      </div>
+    </div>
+    <div class="info-side p-1">
+      <div class="today-info-container pt-2">
+        <div class="today-info p-0 mb-0 d-flex flex-column">
+          <div class="humidity"> <span class="title">HUMIDITY</span><span
+              class="value">{{currentWeather.main.humidity}}%</span>
+            {{!-- <div class="clear"></div> --}}
+          </div>
+          <div class="wind"> <span class="title">WIND</span><span class="value">{{currentWeather.wind.speed}}
+              km/h</span>
+            {{!-- <div class="clear"></div> --}}
+          </div>
+        </div>
+      </div>
+      <div class="week-container">
+        <canvas id="tempChart" class="p-3" width="500" height="200"></canvas>
+      </div>
+      <div class="week-container">
+        <ul class="week-list mt-0" id="week-list">
+        </ul>
+      </div>
+      <!-- <div class="location-container"><button class="location-button"> <i data-feather="map-pin"></i><span>Change location</span></button></div> -->
+    </div>
+  </div>
+  <h2>Country: {{city.country}}</h2>
+  <h4>Population: {{city.population}} citizens</h4>
+  <h5 class="text-center" style="width: 70%">{{{summary}}}</h5>
+  
+  {{!-- {{#with currentWeather}} --}}
+  {{!-- <h2>Weather</h2>
+  <p>Temperature: {{main.temp}}°C (Feel like: {{main.feels_like}}°C)</p>
+  <p>Humidity: {{main.humidity}}%</p>
+  <p>Pressure: {{main.pressure}} hPa</p>
+  <p>Sky: {{weather.[0].main}} ({{weather.[0].description}})</p>
+  <p>Wind speed: {{wind.speed}} m/s ({{wind.deg}})</p>
+  <p>Visibility: {{visibility}} m</p>
+  <p>Sun rise: {{sys.sunrise}}</p>
+  <p>Sun set: {{sys.sunset}}</p>
+  <p>Timezone: {{timezone}}</p>
+  {{/with}} --}}
+  <div class="d-flex align-items-center">
+    <button type="button" class="btn btn-primary m-3" data-toggle="modal" data-target="#visitedModal"><i
+    class="fas fa-user-plus fa-lg"></i><span class="md-hidden d-inline"> Visited? Add to History</span></a></button>
+<button type="button" class="btn btn-primary m-3" data-toggle="modal" data-target="#planningModal"><i
+    class="fas fa-user-plus fa-lg"></i><span class="md-hidden d-inline"> Not Yet? Plan to Visit</span></a></button>
+    
+    <form action="/favorites" method="post">
+      <input type="hidden" name="id" value="{{city._id}}">
+      <input type="hidden" name="image" value="{{imageUrl}}">
+      <button type="submit" class="btn btn-primary m-3"><span class="md-hidden d-inline"> Add to Favorites</span></a></button>
+      {{!-- <button type="submit">Add to Favorites</button> --}}
+    </form>
+  </div>
+  
+</div>
 
-<h1>{{city.name}} details</h1>
-<form action="/favorites" method="post">
-  <input type="hidden" name="id" value="{{city._id}}">
-  <input type="hidden" name="image" value="{{imageUrl}}">
-  <button type="submit">Add to Favorites</button>
-</form>
-{{{summary}}}
-<p>Country: {{city.country}}</p>
-<p>Population: {{city.population}} citizens</p>
-<img src="{{imageUrl}}" alt="{{city.name}}">
-{{#with currentWeather}}
-<h2>Weather</h2>
-<p>Temperature: {{main.temp}}°C (Feel like: {{main.feels_like}}°C)</p>
-<p>Humidity: {{main.humidity}}%</p>
-<p>Pressure: {{main.pressure}} hPa</p>
-<p>Sky: {{weather.[0].main}} ({{weather.[0].description}})</p>
-<p>Wind speed: {{wind.speed}} m/s ({{wind.deg}})</p>
-<p>Visibility: {{visibility}} m</p>
-<p>Sun rise: {{sys.sunrise}}</p>
-<p>Sun set: {{sys.sunset}}</p>
-<p>Timezone: {{timezone}}</p>
-{{/with}}
-<canvas id="tempChart" width="600" height="400"></canvas>
-<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#visitedModal"><i class="fas fa-user-plus fa-lg"></i><span class="md-hidden d-inline"> Visited? Add to History</span></a></button>
-<button type="submit"><a href="/planning/add">Not Yet? Plan to Visit</a></button>
+
+
+
+
+{{#if username}}
+
+{{!-- <button type="submit"><a href="/planning/add">Not Yet? Plan to Visit</a></button> --}}
 
 {{!-- this appear only when user logged in - do it later --}}
-<div class="modal fade" id="visitedModal" tabindex="-1" role="dialog" aria-labelledby="visitedModalTitle" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLongTitle">Visited City Form - {{city.name}}</h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        <div class="modal-body">
-          {{!-- <!-- message bar -->
-          {% if messages %}
-          {% for message in messages %}
-          {% if message.level == DEFAULT_MESSAGE_LEVELS.INFO %}
-          <div class="alert alert-warning alert-dismissible fade show text-center" id="signin-failed" role="alert">
-            <strong>{{ message }}</strong>
-            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-              <span aria-hidden="true">&times;</span>
-            </button>
+<div class="modal fade" id="visitedModal" tabindex="-1" role="dialog" aria-labelledby="visitedModalTitle"
+  aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLongTitle">Visited City Form - {{city.name}}</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form action="/visited/{{city._id}}" class="login-form ml-5 mr-5" method="post">
+          <div class="form-group row p-1 m-0">
+            <label for="fromDate" class="col-3 col-form-label p-0">From Date: </label>
+            <div class="col-9">
+              <input class="form-control" name="fromDate" type="date" value="2021-01-01" id="fromDate" required>
+            </div>
           </div>
-          {% endif %}
-          {% endfor %}
-          {% endif %} --}}
-          <form action="/visited/{{city._id}}" class="login-form ml-5 mr-5" method="post">
-            <div class="form-group row p-1 m-0">
-              <label for="fromDate" class="col-3 col-form-label p-0">From Date: </label>
-              <div class="col-9">
-                <input class="form-control" name="fromDate" type="date" value="2021-01-01" id="fromDate" required>
-              </div>
+          <div class="form-group row p-1 m-0">
+            <label for="toDate" class="col-3 col-form-label p-0">To Date: </label>
+            <div class="col-9">
+              <input class="form-control" name="toDate" type="date" value="2021-01-23" id="toDate" required>
             </div>
-            <div class="form-group row p-1 m-0">
-              <label for="toDate" class="col-3 col-form-label p-0">To Date: </label>
-              <div class="col-9">
-                <input class="form-control" name="toDate" type="date" value="2021-01-23" id="toDate" required>
-              </div>
+          </div>
+          <div class="form-group row p-1 m-0">
+            <label for="travellersNum" class="col-8 col-form-label p-0">Number of Travellers</label>
+            <div class="col-4">
+              <input class="form-control" name="travellersNum" type="number" value="1" id="travellersNum" required>
             </div>
-            <div class="form-group row p-1 m-0">
-              <label for="travellersNum" class="col-8 col-form-label p-0">Number of Travellers</label>
-              <div class="col-4">
-                <input class="form-control" name="travellersNum" type="number" value="1" id="travellersNum" required>
-              </div>
+          </div>
+          <div class="form-group row p-1 m-0">
+            <label for="cost" class="col-7 col-form-label p-0">Actual Cost (€)</label>
+            <div class="col-5">
+              <input class="form-control" name="cost" type="number" id="cost" required>
             </div>
-            <div class="form-group row p-1 m-0">
-              <label for="cost" class="col-7 col-form-label p-0">Actual Cost (€)</label>
-              <div class="col-5">
-                <input class="form-control" name="cost" type="number" id="cost" required>
-              </div>
-            </div>
-            <div class="form-group">
-              <label for="summary">Your short summary about the trip</label>
-              <textarea class="form-control" name="summary" id="summary" rows="3" required></textarea>
-            </div>
+          </div>
+          <div class="form-group">
+            <label for="summary">Your short summary about the trip</label>
+            <textarea class="form-control" name="summary" id="summary" rows="3" required></textarea>
+          </div>
 
-            <div class="form-group row">
-              <label for="rating" class="col-8">Rate your trip</label>
-              <div class="col-4">
-                <select class="form-control" name="rating" id="rating">
+          <div class="form-group row">
+            <label for="rating" class="col-8">Rate your trip</label>
+            <div class="col-4">
+              <select class="form-control" name="rating" id="rating">
                 <option value="1">1</option>
                 <option value="2">2</option>
                 <option value="3">3</option>
                 <option value="4">4</option>
                 <option value="5" selected>5</option>
               </select>
-              </div>
             </div>
-            <input type="hidden" name="image" value="{{imageUrl}}">
-            <div class="form-group text-center">
-              <button type="submit" class="btn btn-login">Submit Your Trip</button>
-            </div>
-          </form>
-        </div>
+          </div>
+          <input type="hidden" name="image" value="{{imageUrl}}">
+          <div class="form-group text-center">
+            <button type="submit" class="btn btn-login">Submit Your Trip</button>
+          </div>
+        </form>
       </div>
     </div>
   </div>
+</div>
 
+<div class="modal fade" id="planningModal" tabindex="-1" role="dialog" aria-labelledby="planningModalTitle"
+  aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLongTitle">Plan to Visit {{city.name}} - Form</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form action="/planning/add/{{city._id}}" class="login-form ml-5 mr-5" method="post">
+          <div class="form-group row p-1 m-0">
+            <label for="travelers" class="col-8 col-form-label p-0">Number of Travellers</label>
+            <div class="col-4">
+              <input class="form-control" name="travelers" type="number" value="1" id="travelers" required>
+            </div>
+          </div>
+          <div class="form-group row p-1 m-0">
+            <label for="budget" class="col-7 col-form-label p-0">Your budget (€)</label>
+            <div class="col-5">
+              <input class="form-control" name="budget" type="number" id="budget" placeholder="100 €" required>
+            </div>
+          </div>
+          <div class="form-group row p-1 m-0">
+            <label for="from" class="col-3 col-form-label p-0">From Date: </label>
+            <div class="col-9">
+              <input class="form-control" name="from" type="date" value="2021-01-01" id="from" required>
+            </div>
+          </div>
+          <div class="form-group row p-1 m-0">
+            <label for="to" class="col-3 col-form-label p-0">To Date: </label>
+            <div class="col-9">
+              <input class="form-control" name="to" type="date" value="2021-01-23" id="to" required>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="preferences">Preferences/Activites</label>
+            <textarea class="form-control" name="preferences" id="preferences" rows="2"></textarea>
+          </div>
+          <input type="hidden" name="image" value="{{imageUrl}}">
+          <div class="form-group text-center">
+            <button type="submit" class="btn btn-login">Add new plan</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+{{/if}}
 
 <script src="/js/cityDetails.js"></script>

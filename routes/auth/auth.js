@@ -35,13 +35,16 @@ router.get("/signup", (req, res, next) => {
 });
 
 router.post('/signup', (req, res, next) => {
-    const { username, password } = req.body;
+    const { username, password, firstName, lastName, email, confirmation} = req.body;
     if (password.length < 8) {
         return res.render('auth/signup', { message: 'Your password has to be 8 chars min' });
     }
     if (username === '') {
         res.render('auth/signup', { message: 'Your username cannot be empty' });
         return;
+    }
+    if (password !== confirmation) {
+        res.render('auth/signup', { message: 'Passwords not match' })
     }
 
     User.findOne({ username: username })
@@ -51,12 +54,13 @@ router.post('/signup', (req, res, next) => {
             } else {
                 const salt = bcrypt.genSaltSync(bcryptSalt);
                 const hash = bcrypt.hashSync(password, salt)
-                User.create({ username: username, password: hash })
+                User.create({ username: username, password: hash, firstName, lastName, email })
                     .then(userFromDB => {
                         console.log(userFromDB);
                         //res.redirect('/');
-                        res.redirect('auth/login');
-                    })
+                        req.session.user = userFromDB;
+                        res.redirect('/');
+                    });
             }
         })
         .catch(err => {

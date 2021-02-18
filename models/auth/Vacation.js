@@ -26,6 +26,8 @@ const vacationSchema = new Schema({
         type: Number,
         required: true
     },
+    preferences: String,
+    image: String
 }, { timestamps: true });
 
 const Vacation = mongoose.model('Vacation', vacationSchema);

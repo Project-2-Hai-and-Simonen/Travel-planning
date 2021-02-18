@@ -17,6 +17,7 @@ router.get('/:id', async (req, res) => {
   let cityScores;
   let summary;
   try {
+    // this for later
     const data = (await axios.get(`https://api.teleport.org/api/urban_areas/slug:${city.name.toLowerCase()}/scores/`)).data;
     cityScores = data.categories;
     summary = data.summary.replace(/Teleport/gi, "Travel-Planning");
@@ -29,9 +30,11 @@ router.get('/:id', async (req, res) => {
   const api = `http://api.openweathermap.org/data/2.5/weather?lat=${coords[1]}&lon=${coords[0]}&appid=${process.env.WEATHER_KEY}&units=metric`;
   let currentWeather;
   let weatherMessage;
+  let currentDate;
   try {
     currentWeather = (await axios.get(api)).data;
     // fix timezone
+    currentDate = helpers.unixConverter(currentWeather.dt);
     let sunrise = helpers.unixConverter(currentWeather.sys.sunrise);
     let sunset = helpers.unixConverter(currentWeather.sys.sunset);
     currentWeather.sys.sunrise = `${sunrise.hours}:${sunrise.minutes}`;
@@ -44,7 +47,7 @@ router.get('/:id', async (req, res) => {
   // image of the city
   let imageUrl = await helpers.getImage(city);
 
-  res.render('cityDetails/cityDetails', {city,summary, currentWeather, imageUrl, weatherMessage, username});
+  res.render('cityDetails/cityDetails', {city,summary, currentWeather, imageUrl, weatherMessage, username, currentDate});
 });
 
 

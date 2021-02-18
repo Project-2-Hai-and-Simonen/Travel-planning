@@ -22,23 +22,40 @@ window.addEventListener('load', async (event) => {
           backgroundColor: "#71d1bd",
           fill: false,
         },
-        // { 
-        //   data: [10,21,60,44,17,21,17],
-        //   label: "Pending",
-        //   borderColor: "#ffa500",
-        //   backgroundColor:"#ffc04d",
-        //   fill: false,
-        // }, { 
-        //   data: [6,3,2,2,7,0,16],
-        //   label: "Rejected",
-        //   borderColor: "#c45850",
-        //   backgroundColor:"#d78f89",
-        //   fill: false,
-        // }
       ]
     },
+    options: {
+      responsive: true,
+      legend: {
+          position: 'left',
+          labels: {
+              fontColor: "white",
+              boxWidth: 20,
+              padding: 20
+          }
+      }
+  }
+  });
+  
+  // generating the elements for week-list
+
+  const ul = document.getElementById("week-list");
+  forcastData.days_letters.forEach((day, index) => {
+    // index = Number(index);
+    let status = (index === 0) ? "active" : "";
+    const div = document.createElement('div');
+    div.innerHTML = `
+    <li class="${status}">
+      <img class="day-icon" src="${forcastData.icons[index]}" alt="${forcastData.weathers[index]}">
+      <span class="day-name">${day}</span>
+      <span class="day-temp">${Math.round(forcastData.tempsNight[index])}°C</span>
+    </li>
+    `;
+    ul.appendChild(div.children[0]);
   });
 });
+
+
 
 
 
