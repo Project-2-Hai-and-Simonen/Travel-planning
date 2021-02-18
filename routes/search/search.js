@@ -10,13 +10,11 @@ router.get('/', (req, res) => {
   try {
     username = req.session.user.username;
   } catch (error) {}
-  console.log(username)
   res.render('search/search', {username});
 });
 
 // request from frontend js via axios
 router.get('/searchInit', (req, res) => {
-  console.log("controller successful");
   Top10City.find()
     .populate('city')
     .then(cities => {

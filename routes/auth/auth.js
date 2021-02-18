@@ -26,13 +26,13 @@ router.get(
     })
 );
 //sign up
-router.get("/signup", (req, res, next) => {
-    let username;
-    try {
-        username = req.session.user.username;
-    } catch (error) {}
-    res.render("auth/signup");
-});
+// router.get("/signup", (req, res, next) => {
+//     let username;
+//     try {
+//         username = req.session.user.username;
+//     } catch (error) {}
+//     res.render("auth/signup");
+// });
 
 router.post('/signup', (req, res, next) => {
     const { username, password, firstName, lastName, email, confirmation} = req.body;
@@ -68,27 +68,28 @@ router.post('/signup', (req, res, next) => {
         });
 });
 
-//log in
-router.get("/login", (req, res, next) => {
-    let username;
-    try {
-        username = req.session.user.username;
-    } catch (error) {}
-    res.render("auth/login");
-});
+// //log in
+// router.get("/login", (req, res, next) => {
+//     let username;
+//     try {
+//         username = req.session.user.username;
+//     } catch (error) {}
+//     res.render("auth/login");
+// });
 
 router.post('/login', (req, res) => {
     const { username, password } = req.body;
     User.findOne({ username: username })
         .then(userFromDB => {
             if (userFromDB === null) {
-                return res.render('auth/login', { message: 'Invalid credentials' });
+                return res.json({message: 'Invalid credentials', success: 0});
+                // return res.render('auth/login', { message: 'Invalid credentials' });
             }
             if (bcrypt.compareSync(password, userFromDB.password)) {
                 req.session.user = userFromDB;
-                res.redirect('/');
+                res.json({message: "success", success: 1});
             } else {
-                res.render('auth/login', { message: 'Invalid credentials' });
+                return res.json({message: 'Invalid credentials', success: 0});
             }
         });
 });

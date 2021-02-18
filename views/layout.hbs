@@ -17,15 +17,20 @@
       <script src="https://kit.fontawesome.com/463a0385d1.js" crossorigin="anonymous"></script>
       <link href='https://api.mapbox.com/mapbox-gl-js/v2.1.1/mapbox-gl.css' rel='stylesheet' />
    </head>
-   <nav class="nav-bar">
+   <nav class="nav-bar bg-warning">
         <ul class="nav-bar-ul">
-            <li><a href="/">Home</a></li>
-            <li><a href="/search">Search</a></li>
+            <li><a href="/"> Bee-Travel</a></li>
+            {{!-- <li class="nav-item mr-3"><a class="btn btn-primary text-white border-0" href="/search" role="button" aria-expanded="false"><i class="fas fa-route fa-lg"></i></i><span class="md-hidden d-inline fa-lg"> Search</span></a></li> --}}
+            {{!-- <li><a href="/search">Search</a></li> --}}
+            <li class="nav-item mr-3"><a class="btn btn-primary text-white border-0" href="/search" role="button" aria-expanded="false"><i class="fas fa-route fa-lg"></i><span class="md-hidden d-inline"> Search</span></a></li>
             {{#if username }}
-            <li><a href="/favorites">Favorites</a></li>
-            <li><a href="/visited">Visited</a></li>
-            <li><a href="/memories">Memories</a></li>
-            <li><a href="/auth/logout">Logout</a></li>
+            {{!-- <li><a href="/favorites">Favorites</a></li> --}}
+            <li class="nav-item mr-3"><a class="btn btn-primary text-white border-0" href="/favorites" role="button" aria-expanded="false"><i class="fas fa-heart fa-lg"></i><span class="md-hidden d-inline"> Favorites</span></a></li>
+            {{!-- <li><a href="/visited">Visited</a></li> --}}
+            <li class="nav-item mr-3"><a class="btn btn-primary text-white border-0" href="/visited" role="button" aria-expanded="false"><i class="fas fa-bus fa-lg"></i><span class="md-hidden d-inline"> Visited</span></a></li>
+            {{!-- <li><a href="/memories">Memories</a></li> --}}
+            <li class="nav-item mr-3"><a class="btn btn-primary text-white border-0" href="/memories" role="button" aria-expanded="false"><i class="fas fa-grin-hearts fa-lg"></i><span class="md-hidden d-inline"> Memories</span></a></li>
+            <li class="nav-item mr-3"><a class="btn btn-primary text-white border-0" href="/auth/logout" role="button" aria-expanded="false"><i class="fas fa-sign-out-alt fa-lg"></i><span class="md-hidden d-inline"> Log Out</span></a></li>
             {{else}}
             <li class="nav-item mr-3"><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#signupModal"><i class="fas fa-user-plus fa-lg"></i><span class="md-hidden d-inline"> Register</span></a></button></li>
             <li class="nav-item mr-3"><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#loginModal"><i class="fas fa-sign-in-alt fa-lg"></i><span class="md-hidden d-inline"> Log In</span></a></button></li>
@@ -49,16 +54,10 @@
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
-        <div class="modal-body">
-         {{#if message}}        
-          <div class="alert alert-warning alert-dismissible fade show text-center" id="signin-failed" role="alert">
-            <strong>{{message}}</strong>
-            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-              <span aria-hidden="true">&times;</span>
-            </button>
-          </div>
-         {{/if}}
-          <form action="/auth/login" class="login-form ml-5 mr-5" method="post">
+        <div class="modal-body"> 
+          <div id="messageLogin"></div>
+          {{!-- <form action="/auth/login" class="login-form ml-5 mr-5" id="loginForm" method="post"> --}}
+          <form onsubmit="login(); return false" class="login-form ml-5 mr-5" id="loginForm" method="post">
             <div class="input-group form-group">
               <div class="input-group-prepend">
                 <span class="input-group-text"><i class="fas fa-user"></i></span>
@@ -181,6 +180,7 @@
     </div>
   </div>
   {{/unless}}
+  <script src="/js/auth.js"></script>
    <script src="/js/script.js"></script>
    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>

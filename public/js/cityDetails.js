@@ -1,7 +1,6 @@
 
 window.addEventListener('load', async (event) => {
   const forcastData = (await window.axios.get(`${window.location.pathname}/7days`)).data.temps7Days;
-  console.log(forcastData);
 
   const ctx = document.getElementById("tempChart").getContext('2d');
   new Chart(ctx, {
