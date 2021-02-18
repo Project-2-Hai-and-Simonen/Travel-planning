@@ -1,20 +1,21 @@
-<h1>Find your favorite city</h1>
-{{!-- <form action="search" method="post"> --}}
-<form id="search-form" onsubmit="return false">
-  <label for="query">Search</label>
-  <input type="text" name="query" id="query" placeholder="Berlin" required>
-  <input type="button" onclick="submitForm()" value="Submit">
-</form>
-<div class="row">
-  <div class="col-md-5 col-sm-12">
-    <h3>City List</h3> 
-    <div id="search-result">
-      <ul id="city-list"></ul>
+<div class="container-md ml-3 mr-3 search">
+  <form id="search-form" class="form-inline d-flex justify-content-center" onsubmit="submitForm(); return false">
+    <input class="form-control mr-sm-2" type="text" name="query" id="query" placeholder="Your favorite city" aria-label="Search" required>
+    <button class="btn btn-outline-success my-2 my-sm-0">Search</button>
+  </form>
+  <h3 class="text-center">Favorite cities in the world</h3>
+  <div class="row m-0 container-city">
+    <div class="col-lg-6 col-sm-12" id="search-result">
+      {{!-- <div id="search-result">
+        <ul id="city-list"></ul>
+      </div> --}}
     </div>
-  </div>
-  <div id="mapbox" class="col-md-7 col-sm-12">
-    <div id='map' style='width: 850px; height: 600px;'></div>
+
+      <div id='map' class="col-lg-6 col-sm-12 pl-0"></div>
+
   </div>
 </div>
-
 <script src="/js/citySearch.js"></script>
+{{!-- <script>
+  AOS.init();
+</script> --}}

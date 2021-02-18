@@ -4,6 +4,7 @@ html, body {
     font-family: Arial, Helvetica, sans-serif;
     position: relative;
     min-height: 100vh;
+    background-image: url('/images/background-search.jpg');
 }
 /* body {
     width:100%;
@@ -33,7 +34,7 @@ h1 {
   letter-spacing: 0.5px;
   text-align: center;
   text-decoration: none;
-  padding: 10px 30px;
+  padding: 5px 10px;
   margin: 10px;
   border-radius: 8px;
 }
@@ -135,4 +136,67 @@ img {
     height: 100px;
     background-color: #0a2c42;
     color: white;
+} */
+
+/* Search route */
+.card-color-1 {
+    background-color: rgb(130, 171, 158)
+}
+
+.card-color-2 {
+    background-color: rgb(171, 169, 130)
+}
+/* .link-btn {
+    background-color: rgb(67, 163, 230);
+    color: white;
+    font-family: Roboto Condensed;
+    font-size: 1.3em;
+    letter-spacing: 0.5px;
+    text-align: center;
+    text-decoration: none;
+    padding: 10px 30px;
+    margin: 10px;
+    border-radius: 8px;
+  } */
+
+  /* Search bar */
+#search-form input {
+    width: 400px;
+}
+
+/* #mapbox {
+    width: 100%;
+    height: auto;
+}
+*/
+
+/* .container-city {
+    background-image: url('/images/background-search.jpg');
+} */
+
+#map {
+    width: 100%;
+    height: 755px;
+    border: 2px solid black;
+    border-radius: 8px;
+}
+
+.card-city {
+    border: 2px solid black;
+    border-radius: 8px;
+}
+/* 
+.card-city {
+    transition: color 0.25s;
+}
+
+.card-city:hover::before {
+    border-top-color: #60daaa;
+    border-right-color: #60daaa;
+    transition: width 0.25s ease-out, height 0.25s ease-out 0.25s;
+}
+.card-city:hover::after {
+    border-bottom-color: #60daaa;
+    border-left-color: #60daaa;
+    transition: border-color 0s ease-out 0.5s, width 0.25s ease-out 0.5s, height 0.25s ease-out 0.75s;
 } */
