@@ -47,7 +47,7 @@ async function submitForm() {
 
 // go to the place upon click map
 function mapLookup(long, lat) {
-  map.flyTo({center: [long, lat], zoom: 9});
+  map.flyTo({center: [log, lat], zoom: 9});
 }
 
 
@@ -59,14 +59,31 @@ function cityGenerator(cities) {
   });
 }
 
+// function divGenerator (city, container, index) {
+//   let cardColor = index%2===0 ? "card-color-1" : "card-color-2";
+//   const div = document.createElement('div');
+//   div.className = "card-city";
+//   div.classList.add("row");
+//   div.classList.add(`${cardColor}`);
+//   div.classList.add("mb-1");
+//   div.innerHTML = `
+//       <div class="col-8">
+//         <h4 class="text-white">${city.name}</h4>
+//         <h5>${city.country}</h5>
+//       </div>
+//       <div class="col-4 d-flex justify-content-end">
+//         <a href="javascript:mapLookup(${city.loc.coordinates})" class="link-btn btn-view">Map</a>
+//         <a href="/details/${city._id}" class="link-btn btn-view">Detail</a>
+//       </div>
+//     `;
+//   container.appendChild(div);
+// }
+
 function divGenerator (city, container, index) {
   let cardColor = index%2===0 ? "card-color-1" : "card-color-2";
   const div = document.createElement('div');
-  div.className = "card-city";
-  div.classList.add("row");
-  div.classList.add(`${cardColor}`);
-  div.classList.add("mb-1");
   div.innerHTML = `
+    <div class="card-city row ${cardColor} mb-1" data-aos="zoom-in" data-aos-duration="1000">
       <div class="col-8">
         <h4 class="text-white">${city.name}</h4>
         <h5>${city.country}</h5>
@@ -75,8 +92,10 @@ function divGenerator (city, container, index) {
         <a href="javascript:mapLookup(${city.loc.coordinates})" class="link-btn btn-view">Map</a>
         <a href="/details/${city._id}" class="link-btn btn-view">Detail</a>
       </div>
+    </div>
     `;
-  container.appendChild(div);
+  
+  container.appendChild(div.firstChild);
 }
 
 // function liGenerator (city, list) {
