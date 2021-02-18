@@ -107,15 +107,8 @@
           </button>
         </div>
         <div class="modal-body">
-          {{#if message}}
-          <div class="alert alert-warning alert-dismissible fade show text-center" id="signup-failed" role="alert">
-            <strong>{{ message }}</strong>
-            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-              <span aria-hidden="true">&times;</span>
-            </button>
-          </div>
-          {{/if}}
-          <form action="/auth/signup" method="post">
+          <div id="messageSignup"></div>
+          <form onsubmit="signup(); return false" method="post" id="signupForm">
             <div class="form-row">
               <div class="col-md-6 input-group form-group">
                 <div class="input-group-prepend">
