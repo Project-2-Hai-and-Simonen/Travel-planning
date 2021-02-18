@@ -15,7 +15,6 @@ let markers = [];
 
 // list of search results
 const searchResultList = document.getElementById('search-result');
-console.log(searchResultList);
 
 // initialize the first most 10-visited cities and map
 window.addEventListener('load', async (event) => {
@@ -47,7 +46,7 @@ async function submitForm() {
 
 // go to the place upon click map
 function mapLookup(long, lat) {
-  map.flyTo({center: [log, lat], zoom: 9});
+  map.flyTo({center: [long, lat], zoom: 9});
 }
 
 
@@ -83,7 +82,7 @@ function divGenerator (city, container, index) {
   let cardColor = index%2===0 ? "card-color-1" : "card-color-2";
   const div = document.createElement('div');
   div.innerHTML = `
-    <div class="card-city row ${cardColor} mb-1" data-aos="zoom-in" data-aos-duration="1000">
+    <div class="card-city row ${cardColor} mb-1">
       <div class="col-8">
         <h4 class="text-white">${city.name}</h4>
         <h5>${city.country}</h5>
@@ -94,8 +93,7 @@ function divGenerator (city, container, index) {
       </div>
     </div>
     `;
-  
-  container.appendChild(div.firstChild);
+  container.appendChild(div.children[0]);
 }
 
 // function liGenerator (city, list) {
