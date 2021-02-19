@@ -13,6 +13,13 @@ const express = require("express");
 // https://www.npmjs.com/package/hbs
 const hbs = require("hbs");
 
+// hbs.handlebars.registerHelper('dateFormat', require('handlebars-dateformat'));
+var moment = require('moment');
+hbs.handlebars.registerHelper('formatTime', function (date, format) {
+    var mmnt = moment(date);
+    return mmnt.format(format);
+});
+
 const app = express();
 
 // ℹ️ This function is getting exported from the config folder. It runs most middlewares

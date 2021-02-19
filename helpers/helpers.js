@@ -1,11 +1,10 @@
 const axios = require('axios');
 
-// move later to helpers folder
-function unixConverter(unixTime) {
+function timeConverter(date) {
+  date = new Date(date);
   const  months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
   const weekdays = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
   const weekdays_short = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
-  const date = new Date(unixTime * 1000);
   const year = date.getFullYear();
   const month = date.getMonth()+1;
   const day = date.getDate();
@@ -18,7 +17,11 @@ function unixConverter(unixTime) {
   const weekday_short = weekdays_short[day_num];
   return {year, month, day, hours, minutes, seconds, weekday, weekday_short, month_letters};
 }
-// module.exports = unixConverter;
+
+// move later to helpers folder
+function unixConverter(unixTime) {
+  return timeConverter(new Date(unixTime * 1000));
+}
 
 function tempDataForGraph(data) {
   let days = [];
@@ -50,4 +53,4 @@ async function getImage(city) {
   return imageUrl;
 }
 
-module.exports = {tempDataForGraph, unixConverter, getImage};
+module.exports = {tempDataForGraph, unixConverter, getImage, timeConverter};

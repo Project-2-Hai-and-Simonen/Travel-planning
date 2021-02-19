@@ -8,16 +8,8 @@ const Memories = require('../../models/auth/Memories');
 const Vacation = require('../../models/auth/Vacation');
 const { uploadCloud, cloudinary } = require('../../config/auth/cloudinary');
 const Favorite = require('../../models/FavoriteCity');
+const { loginCheck } = require('../../middlewares/loginCheck');
 
-const loginCheck = () => {
-        return (req, res, next) => {
-            if (req.session.user) {
-                next();
-            } else {
-                res.redirect('/login');
-            }
-        }
-    }
     //  get all plans
 router.get('/', loginCheck(), (req, res) => {
     const user = req.session.user;
@@ -25,7 +17,7 @@ router.get('/', loginCheck(), (req, res) => {
         .populate('city')
         .then(plans => {
             console.log(plans)
-            res.render('planning/plans', { user: req.session.user, plans });
+            res.render('planning/plans', { user: req.session.user, plans, username: user.username});
         })
         .catch(err => {
             console.log(err);
@@ -50,9 +42,14 @@ router.post('/add/:cityID', loginCheck(), (req, res) => {
     const user = req.session.user;
     const {travelers, from, to, budget, preferences,  image} = req.body;
     Vacation.create({ city, travelers, preferences, from, to, budget, user: user._id, image })
-        .then((plan) => {
-            console.log(plan)
-            res.redirect('/planning')
+        .then(async (plan) => {
+            try {
+                await Favorite.create({user: user._id, city, imageUrl: image});
+                res.redirect('/planning');
+              } catch (error) {
+                console.log(error);
+                res.render('error');
+              }
         })
         .catch(err => {
             console.log("erro:", err);
@@ -66,7 +63,7 @@ router.get('/:id', loginCheck(), (req, res, next) => {
         .populate('city')
         .then(plan => {
             console.log(plan);
-            res.render('planning/plan', { plan })
+            res.render('planning/plan', { plan, username: user.username })
         })
         .catch(err => {
             console.log("erro:", err);
@@ -90,7 +87,7 @@ router.get('/:id/edit', (req, res, next) => {
     const user = req.session.user;
     Vacation.findOne({ user: user._id, _id: req.params.id })
         .then(planFromDB => {
-            res.render('planning/edit', { city: planFromDB });
+            res.render('planning/edit', { city: planFromDB, username: user.username });
         })
         .catch(err => {
             console.log(err);

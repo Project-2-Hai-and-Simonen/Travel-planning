@@ -4,13 +4,23 @@ const FavoriteCity = require('../../models/FavoriteCity');
 const Trip = require('../../models/Trip');
 const Memories = require('../../models/auth/Memories');
 const { loginCheck } = require('../../middlewares/loginCheck');
+const helpers = require('../../helpers/helpers');
 
 router.get('/', loginCheck(), async (req, res) => {
   const user = req.session.user;
   let trips;
+  let datesFrom = [];
+  let datesTo = [];
   try {
     // add {user: req.user/session.id} later
     trips = await Trip.find({user: user._id}).populate('city');
+    // trips.forEach(trip => {
+    //   let from = helpers.timeConverter(trip.fromDate.getTime());
+    //   let to = helpers.timeConverter(trip.toDate.getTime());
+    //   trip.fromDate = `${from.day}:${from.month}:${from.year}`;
+    //   trip.toDate = `${to.day}:${to.month}:${to.year}`;
+    //   console.log(trip);
+    // });
     res.render('favorites/visitedCities', {trips, username: user.username});
   } catch (error) {
     console.log(error);
