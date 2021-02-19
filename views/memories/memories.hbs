@@ -1,8 +1,11 @@
-<h1>{{username}}'s memories</h1>
-
+<h1 class="text-center">{{username}}'s memories</h1>
+ 
 {{#if memories.length}}
+<div class="container">
+ <div class="row">
   {{#each memories}}
-    <div class="col-lg-4 col-md-6 col-sm-12 p-3">
+
+    <div class="col-lg-4 col-md-6 col-sm-12 pb-3">
       <div class="card ">
         <img class="card-img-top" src="{{stories.[0].imgPath}}" alt="{{stories.[0].imgName}}">
         <div class="card-body bg-secondary d-flex justify-content-center m-0 p-0">
@@ -11,10 +14,13 @@
         </div>
       </div>
     </div>
+    
   {{/each}}
+  </div>
+  </div>
 {{else}}
-  <p>Ups! It seems like you have not visted any city yet!</p>;
-  <p>Visted? Then search for the city and add it as visited -> start to add stories to your memory :D</p>
+  <p class="text-center">Ups! It seems like you have not visted any city yet!</p>;
+  <p class="text-center">Visted? Then search for the city and add it as visited -> start to add stories to your memory :D</p>
 {{/if}}
 
 

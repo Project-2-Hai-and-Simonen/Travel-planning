@@ -16,6 +16,7 @@ router.get('/', loginCheck(), (req, res) => {
     Memories.find({ user: userID })
         .populate('city')
         .then(memories => {
+            console.log(memories);
             res.render('memories/memories', { memories, username });
         })
         .catch(err => {

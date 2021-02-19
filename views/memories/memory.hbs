@@ -1,17 +1,21 @@
 {{!-- This equivalent to city-show.hbs --}}
-<h1>{{username}}'s stories at {{memory.city.name}} City</h1>
-{{#each memory.stories }}
-<img src="{{imgPath}}">
-<p>{{imgCaption}}</p>
-<p>{{description}}</p>
-<p><a href="/memories/{{../memory._id}}/delete/{{_id}}">Delete this picture</a></p>
-{{!-- <button id={{}}>Edit this picture</button> --}}
-{{!-- <a href="/memories/{{../memory._id}}/edit/{{_id}}">Edit this picture</a> --}}
-{{/each}}
+<div class="container">
+  <div class="d-flex flex-column justify-content-center align-items-center">
+    <h1>{{username}}'s stories at {{memory.city.name}} City</h1>
+    {{#each memory.stories }}
+    <img src="{{imgPath}}">
+    <p>{{imgCaption}}</p>
+    <p>{{description}}</p>
+    <p><a href="/memories/{{../memory._id}}/delete/{{_id}}">Delete this picture</a></p>
+    {{!-- <button id={{}}>Edit this picture</button> --}}
+    {{!-- <a href="/memories/{{../memory._id}}/edit/{{_id}}">Edit this picture</a> --}}
+    {{/each}}
+    <button type="button" class="btn btn-primary mb-5" data-toggle="modal" data-target="#addStoryModal"><i class="fas fa-user-plus fa-lg"></i><span class="md-hidden d-inline"> Add a Story</span></a></button>
+  </div>
 
-<p></p>
+</div>
 
-<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addStoryModal"><i class="fas fa-user-plus fa-lg"></i><span class="md-hidden d-inline"> Add a Story</span></a></button>
+
 
 <div class="modal fade" id="addStoryModal" tabindex="-1" role="dialog" aria-labelledby="addStoryModalTitle" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered" role="document">

@@ -3,6 +3,7 @@ const router = require('express').Router();
 const FavoriteCity = require('../../models/FavoriteCity');
 const Trip = require('../../models/Trip');
 const { loginCheck } = require('../../middlewares/loginCheck');
+const helpers = require('../../helpers/helpers');
 
 router.get('/', loginCheck(), async (req, res) => {
   // later change it to user specific
@@ -10,7 +11,9 @@ router.get('/', loginCheck(), async (req, res) => {
   let favoriteCities;
   try {
     favoriteCities = await FavoriteCity.find({user: user._id}).populate('city');
-    console.log(favoriteCities);
+    await favoriteCities.forEach(async (favoriteCity, index) => {
+      favoriteCities[index].imageUrl = await helpers.getImage(favoriteCity.city);
+    });
   } catch (error) {
     console.log(error);
     res.render('error');

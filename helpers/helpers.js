@@ -43,10 +43,11 @@ function tempDataForGraph(data) {
 }
 
 async function getImage(city) {
-  let imageUrl = '';
+  let url = `https://pixabay.com/api/?key=20293959-d8461f881419a60b2e35d78d7&q=${city.name.toLowerCase()}&image_type=photo&pretty=true&per_page=3`;
+  console.log(url);
   try {
     // imageUrl = (await axios.get(`https://api.teleport.org/api/urban_areas/slug:${city.name.toLowerCase()}/images/`)).data.photos[0].image.mobile;
-    imageUrl = (await axios.get(`https://pixabay.com/api/?key=20293959-d8461f881419a60b2e35d78d7&q=${city.name.toLowerCase()}&image_type=photo&pretty=true&per_page=3`)).data.hits[0].webformatURL;
+    imageUrl = (await axios.get(url)).data.hits[0].webformatURL;
   } catch (error) {
     imageUrl = '/images/default_city.jpg';
   }
